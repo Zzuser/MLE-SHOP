@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tedu.mle.common.dao.UserExtraDAO">
-  <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.UserExtra">
+<mapper namespace="com.tedu.mle.shopend.dao.UserExtraDAO">
+  <resultMap id="BaseResultMap" type="com.tedu.mle.shopend.entity.UserExtra">
     <id column="user_extra_id" jdbcType="BIGINT" property="userExtraId" />
     <result column="user_id_f" jdbcType="BIGINT" property="userIdF" />
     <result column="qq" jdbcType="VARCHAR" property="qq" />
@@ -22,7 +22,7 @@
     delete from user_extra
     where user_extra_id = #{userExtraId,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.tedu.mle.common.entity.UserExtra">
+  <insert id="insert" parameterType="com.tedu.mle.shopend.entity.UserExtra">
     insert into user_extra (user_extra_id, user_id_f, qq, 
       weixin, real_name, idcard_num
       )
@@ -30,7 +30,7 @@
       #{weixin,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{idcardNum,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.tedu.mle.common.entity.UserExtra">
+  <insert id="insertSelective" parameterType="com.tedu.mle.shopend.entity.UserExtra">
     insert into user_extra
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userExtraId != null">
@@ -73,7 +73,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.UserExtra">
+  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.shopend.entity.UserExtra">
     update user_extra
     <set>
       <if test="userIdF != null">
@@ -94,7 +94,7 @@
     </set>
     where user_extra_id = #{userExtraId,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.common.entity.UserExtra">
+  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.shopend.entity.UserExtra">
     update user_extra
     set user_id_f = #{userIdF,jdbcType=BIGINT},
       qq = #{qq,jdbcType=VARCHAR},

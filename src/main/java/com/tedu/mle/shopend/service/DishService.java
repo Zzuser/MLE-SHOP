@@ -1,7 +1,6 @@
 package com.tedu.mle.shopend.service;
 
-import com.tedu.mle.common.entity.Dish;
-import com.tedu.mle.common.vo.PageObject;
+import com.tedu.mle.shopend.entity.Dish;
 
 public interface DishService {
     /**

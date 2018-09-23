@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tedu.mle.common.dao.ShopEvaImageDAO">
-  <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.ShopEvaImage">
+<mapper namespace="com.tedu.mle.shopend.dao.ShopEvaImageDAO">
+  <resultMap id="BaseResultMap" type="com.tedu.mle.shopend.entity.ShopEvaImage">
     <id column="shop_eva_image_id" jdbcType="BIGINT" property="shopEvaImageId" />
     <result column="shop_eva_id_f" jdbcType="BIGINT" property="shopEvaIdF" />
     <result column="url" jdbcType="VARCHAR" property="url" />
@@ -20,13 +20,13 @@
     delete from shop_eva_image
     where shop_eva_image_id = #{shopEvaImageId,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.tedu.mle.common.entity.ShopEvaImage">
+  <insert id="insert" parameterType="com.tedu.mle.shopend.entity.ShopEvaImage">
     insert into shop_eva_image (shop_eva_image_id, shop_eva_id_f, url, 
       `desc`)
     values (#{shopEvaImageId,jdbcType=BIGINT}, #{shopEvaIdF,jdbcType=BIGINT}, #{url,jdbcType=VARCHAR}, 
       #{desc,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.tedu.mle.common.entity.ShopEvaImage">
+  <insert id="insertSelective" parameterType="com.tedu.mle.shopend.entity.ShopEvaImage">
     insert into shop_eva_image
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="shopEvaImageId != null">
@@ -57,7 +57,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.ShopEvaImage">
+  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.shopend.entity.ShopEvaImage">
     update shop_eva_image
     <set>
       <if test="shopEvaIdF != null">
@@ -72,7 +72,7 @@
     </set>
     where shop_eva_image_id = #{shopEvaImageId,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.common.entity.ShopEvaImage">
+  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.shopend.entity.ShopEvaImage">
     update shop_eva_image
     set shop_eva_id_f = #{shopEvaIdF,jdbcType=BIGINT},
       url = #{url,jdbcType=VARCHAR},

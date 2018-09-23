@@ -1,11 +1,10 @@
 package com.tedu.mle.shopend.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.tedu.mle.common.entity.ChildMenu;
+import com.tedu.mle.shopend.entity.ChildMenu;
 
 public interface ChildMenuService {
 

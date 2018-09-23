@@ -3,8 +3,8 @@ package com.tedu.mle.shopend.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tedu.mle.common.dao.FatherMenuDAO;
-import com.tedu.mle.common.entity.FatherMenu;
+import com.tedu.mle.shopend.dao.FatherMenuDAO;
+import com.tedu.mle.shopend.entity.FatherMenu;
 import com.tedu.mle.common.exception.ServiceException;
 import com.tedu.mle.shopend.service.FatherMenuService;
 @Service

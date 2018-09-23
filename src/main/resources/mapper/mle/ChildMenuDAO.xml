@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tedu.mle.common.dao.ChildMenuDAO">
-    <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.ChildMenu">
+<mapper namespace="com.tedu.mle.shopend.dao.ChildMenuDAO">
+    <resultMap id="BaseResultMap" type="com.tedu.mle.shopend.entity.ChildMenu">
         <id column="child_menu_id" jdbcType="BIGINT" property="childMenuId"/>
         <result column="shop_id_f" jdbcType="BIGINT" property="shopIdF"/>
         <result column="father_menu_id_f" jdbcType="BIGINT" property="fatherMenuIdF"/>
@@ -23,7 +23,7 @@
         from child_menu
         where child_menu_id = #{childMenuId,jdbcType=BIGINT}
     </delete>
-    <insert id="insert" parameterType="com.tedu.mle.common.entity.ChildMenu"
+    <insert id="insert" parameterType="com.tedu.mle.shopend.entity.ChildMenu"
      >
         insert into child_menu (
                                 shop_id_f,
@@ -38,7 +38,7 @@
                 #{childMenuDesc,jdbcType=VARCHAR},
                 #{createtime,jdbcType=DATE})
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.ChildMenu">
+    <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.shopend.entity.ChildMenu">
         update child_menu
         <set>
             <if test="shopIdF != null">
@@ -59,8 +59,8 @@
         </set>
         where child_menu_id = #{childMenuId,jdbcType=BIGINT}
     </update>
-    <resultMap id="hasDishList" type="com.tedu.mle.common.entity.ChildMenu" extends="BaseResultMap">
-        <collection property="dishList" ofType="com.tedu.mle.common.entity.Dish">
+    <resultMap id="hasDishList" type="com.tedu.mle.shopend.entity.ChildMenu" extends="BaseResultMap">
+        <collection property="dishList" ofType="com.tedu.mle.shopend.entity.Dish">
             <id column="dish_id" jdbcType="BIGINT" property="dishId"/>
             <result column="dish_name" jdbcType="VARCHAR" property="dishName"/>
             <result column="d_shop_id_f" jdbcType="BIGINT" property="shopIdF"/>
@@ -75,7 +75,7 @@
             <result column="saled_num" jdbcType="INTEGER" property="saledNum"/>
         </collection>
     </resultMap>
-    <select id="selectWithDishList" resultMap="hasDishList" parameterType="com.tedu.mle.common.entity.ChildMenu">
+    <select id="selectWithDishList" resultMap="hasDishList" parameterType="com.tedu.mle.shopend.entity.ChildMenu">
         select child_menu_id,
         cm.shop_id_f,
         father_menu_id_f,

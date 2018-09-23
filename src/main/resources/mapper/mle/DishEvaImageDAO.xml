@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tedu.mle.common.dao.DishEvaImageDAO">
-  <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.DishEvaImage">
+<mapper namespace="com.tedu.mle.shopend.dao.DishEvaImageDAO">
+  <resultMap id="BaseResultMap" type="com.tedu.mle.shopend.entity.DishEvaImage">
     <id column="dish_eva_image_id" jdbcType="BIGINT" property="dishEvaImageId" />
     <result column="dish_eva_id_f" jdbcType="BIGINT" property="dishEvaIdF" />
     <result column="url" jdbcType="VARCHAR" property="url" />
@@ -20,13 +20,13 @@
     delete from dish_eva_image
     where dish_eva_image_id = #{dishEvaImageId,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.tedu.mle.common.entity.DishEvaImage">
+  <insert id="insert" parameterType="com.tedu.mle.shopend.entity.DishEvaImage">
     insert into dish_eva_image (dish_eva_image_id, dish_eva_id_f, url, 
       `desc`)
     values (#{dishEvaImageId,jdbcType=BIGINT}, #{dishEvaIdF,jdbcType=BIGINT}, #{url,jdbcType=VARCHAR}, 
       #{desc,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.tedu.mle.common.entity.DishEvaImage">
+  <insert id="insertSelective" parameterType="com.tedu.mle.shopend.entity.DishEvaImage">
     insert into dish_eva_image
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="dishEvaImageId != null">
@@ -57,7 +57,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.DishEvaImage">
+  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.shopend.entity.DishEvaImage">
     update dish_eva_image
     <set>
       <if test="dishEvaIdF != null">
@@ -72,7 +72,7 @@
     </set>
     where dish_eva_image_id = #{dishEvaImageId,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.common.entity.DishEvaImage">
+  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.shopend.entity.DishEvaImage">
     update dish_eva_image
     set dish_eva_id_f = #{dishEvaIdF,jdbcType=BIGINT},
       url = #{url,jdbcType=VARCHAR},

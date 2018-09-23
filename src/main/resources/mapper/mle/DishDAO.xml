@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tedu.mle.common.dao.DishDAO">
-    <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.Dish">
+<mapper namespace="com.tedu.mle.shopend.dao.DishDAO">
+    <resultMap id="BaseResultMap" type="com.tedu.mle.shopend.entity.Dish">
         <id column="dish_id" jdbcType="BIGINT" property="dishId"/>
         <result column="dish_name" jdbcType="VARCHAR" property="dishName"/>
         <result column="shop_id_f" jdbcType="BIGINT" property="shopIdF"/>
@@ -51,8 +51,8 @@
         from dish
         where dish_id = #{dishId,jdbcType=BIGINT}
     </delete>
-    <insert id="insert" parameterType="com.tedu.mle.common.entity.Dish" useGeneratedKeys="true"
-    keyProperty="dishId">
+    <insert id="insert" parameterType="com.tedu.mle.shopend.entity.Dish" useGeneratedKeys="true"
+            keyProperty="dishId">
         insert into dish (
                           dish_name,
                           shop_id_f,
@@ -80,7 +80,7 @@
 
     </insert>
 
-    <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.Dish">
+    <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.shopend.entity.Dish">
         update dish
         <set>
             <if test="dishName != null">

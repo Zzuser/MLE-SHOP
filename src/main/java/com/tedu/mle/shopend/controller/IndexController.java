@@ -1,7 +1,8 @@
 package com.tedu.mle.shopend.controller;
 
-import com.tedu.mle.common.entity.Shop;
+
 import com.tedu.mle.common.vo.JsonResult;
+import com.tedu.mle.shopend.entity.Shop;
 import com.tedu.mle.shopend.service.ShopService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -26,7 +27,7 @@ public class IndexController {
     public String indexUI(String user, HttpSession session) {
         Shop shop = shopService.selectByPhone(user);
         session.setAttribute("currentUser", shop);
-        return "shopend/starter";
+        return "starter";
     }
 
     @RequestMapping("index")
@@ -38,7 +39,7 @@ public class IndexController {
 
     @RequestMapping("doLoginUI")
     public String doLoginUI() {
-        return "shopend/login";//login.html
+        return "login";
     }
 
     @RequestMapping("doLogin")

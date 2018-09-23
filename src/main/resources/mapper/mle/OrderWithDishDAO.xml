@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tedu.mle.common.dao.OrderWithDishDAO">
-  <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.OrderWithDish">
+<mapper namespace="com.tedu.mle.shopend.dao.OrderWithDishDAO">
+  <resultMap id="BaseResultMap" type="com.tedu.mle.shopend.entity.OrderWithDish">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="order_id_f" jdbcType="BIGINT" property="orderIdF" />
     <result column="dish_id_f" jdbcType="BIGINT" property="dishIdF" />
@@ -21,13 +21,13 @@
     delete from order_with_dish
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.tedu.mle.common.entity.OrderWithDish">
+  <insert id="insert" parameterType="com.tedu.mle.shopend.entity.OrderWithDish">
     insert into order_with_dish (id, order_id_f, dish_id_f, 
       dish_num, total_price)
     values (#{id,jdbcType=BIGINT}, #{orderIdF,jdbcType=BIGINT}, #{dishIdF,jdbcType=BIGINT}, 
       #{dishNum,jdbcType=INTEGER}, #{totalPrice,jdbcType=DOUBLE})
   </insert>
-  <insert id="insertSelective" parameterType="com.tedu.mle.common.entity.OrderWithDish">
+  <insert id="insertSelective" parameterType="com.tedu.mle.shopend.entity.OrderWithDish">
     insert into order_with_dish
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -64,7 +64,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.OrderWithDish">
+  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.shopend.entity.OrderWithDish">
     update order_with_dish
     <set>
       <if test="orderIdF != null">
@@ -82,7 +82,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.common.entity.OrderWithDish">
+  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.shopend.entity.OrderWithDish">
     update order_with_dish
     set order_id_f = #{orderIdF,jdbcType=BIGINT},
       dish_id_f = #{dishIdF,jdbcType=BIGINT},

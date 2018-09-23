@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tedu.mle.common.dao.ShopWithCategoryDAO">
-  <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.ShopWithCategory">
+<mapper namespace="com.tedu.mle.shopend.dao.ShopWithCategoryDAO">
+  <resultMap id="BaseResultMap" type="com.tedu.mle.shopend.entity.ShopWithCategory">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="shop_id_f" jdbcType="BIGINT" property="shopIdF" />
     <result column="shop_category_id_f" jdbcType="BIGINT" property="shopCategoryIdF" />
@@ -19,13 +19,13 @@
     delete from shop_with_category
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.tedu.mle.common.entity.ShopWithCategory">
+  <insert id="insert" parameterType="com.tedu.mle.shopend.entity.ShopWithCategory">
     insert into shop_with_category (id, shop_id_f, shop_category_id_f
       )
     values (#{id,jdbcType=BIGINT}, #{shopIdF,jdbcType=BIGINT}, #{shopCategoryIdF,jdbcType=BIGINT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.tedu.mle.common.entity.ShopWithCategory">
+  <insert id="insertSelective" parameterType="com.tedu.mle.shopend.entity.ShopWithCategory">
     insert into shop_with_category
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -50,7 +50,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.ShopWithCategory">
+  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.shopend.entity.ShopWithCategory">
     update shop_with_category
     <set>
       <if test="shopIdF != null">
@@ -62,7 +62,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.common.entity.ShopWithCategory">
+  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.shopend.entity.ShopWithCategory">
     update shop_with_category
     set shop_id_f = #{shopIdF,jdbcType=BIGINT},
       shop_category_id_f = #{shopCategoryIdF,jdbcType=BIGINT}

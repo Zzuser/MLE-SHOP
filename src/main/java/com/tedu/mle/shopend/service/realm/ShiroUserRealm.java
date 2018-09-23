@@ -1,8 +1,8 @@
 package com.tedu.mle.shopend.service.realm;
 
 
-import com.tedu.mle.common.dao.ShopDAO;
-import com.tedu.mle.common.entity.Shop;
+import com.tedu.mle.shopend.dao.ShopDAO;
+import com.tedu.mle.shopend.entity.Shop;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tedu.mle.common.dao.DishCategoryDAO">
-  <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.DishCategory">
+<mapper namespace="com.tedu.mle.shopend.dao.DishCategoryDAO">
+  <resultMap id="BaseResultMap" type="com.tedu.mle.shopend.entity.DishCategory">
     <id column="dish_category_id" jdbcType="BIGINT" property="dishCategoryId" />
     <result column="dish_category_name" jdbcType="VARCHAR" property="dishCategoryName" />
     <result column="desc" jdbcType="VARCHAR" property="desc" />
@@ -19,13 +19,13 @@
     delete from dish_category
     where dish_category_id = #{dishCategoryId,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.tedu.mle.common.entity.DishCategory">
+  <insert id="insert" parameterType="com.tedu.mle.shopend.entity.DishCategory">
     insert into dish_category (dish_category_id, dish_category_name, 
       `desc`)
     values (#{dishCategoryId,jdbcType=BIGINT}, #{dishCategoryName,jdbcType=VARCHAR}, 
       #{desc,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.tedu.mle.common.entity.DishCategory">
+  <insert id="insertSelective" parameterType="com.tedu.mle.shopend.entity.DishCategory">
     insert into dish_category
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="dishCategoryId != null">
@@ -50,7 +50,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.DishCategory">
+  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.shopend.entity.DishCategory">
     update dish_category
     <set>
       <if test="dishCategoryName != null">
@@ -62,7 +62,7 @@
     </set>
     where dish_category_id = #{dishCategoryId,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.common.entity.DishCategory">
+  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.shopend.entity.DishCategory">
     update dish_category
     set dish_category_name = #{dishCategoryName,jdbcType=VARCHAR},
       `desc` = #{desc,jdbcType=VARCHAR}

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tedu.mle.common.dao.DishWithCategoryDAO">
-  <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.DishWithCategory">
+<mapper namespace="com.tedu.mle.shopend.dao.DishWithCategoryDAO">
+  <resultMap id="BaseResultMap" type="com.tedu.mle.shopend.entity.DishWithCategory">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="dish_id_f" jdbcType="BIGINT" property="dishIdF" />
     <result column="category_id_f" jdbcType="BIGINT" property="categoryIdF" />
@@ -19,13 +19,13 @@
     delete from dish_with_category
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.tedu.mle.common.entity.DishWithCategory">
+  <insert id="insert" parameterType="com.tedu.mle.shopend.entity.DishWithCategory">
     insert into dish_with_category (id, dish_id_f, category_id_f
       )
     values (#{id,jdbcType=BIGINT}, #{dishIdF,jdbcType=BIGINT}, #{categoryIdF,jdbcType=BIGINT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.tedu.mle.common.entity.DishWithCategory">
+  <insert id="insertSelective" parameterType="com.tedu.mle.shopend.entity.DishWithCategory">
     insert into dish_with_category
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -50,7 +50,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.DishWithCategory">
+  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.shopend.entity.DishWithCategory">
     update dish_with_category
     <set>
       <if test="dishIdF != null">
@@ -62,7 +62,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.common.entity.DishWithCategory">
+  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.shopend.entity.DishWithCategory">
     update dish_with_category
     set dish_id_f = #{dishIdF,jdbcType=BIGINT},
       category_id_f = #{categoryIdF,jdbcType=BIGINT}

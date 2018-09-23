@@ -1,11 +1,11 @@
 package com.tedu.mle.shopend.service.impl;
 
-import com.tedu.mle.common.dao.ChildMenuDAO;
-import com.tedu.mle.common.dao.FatherMenuDAO;
-import com.tedu.mle.common.dao.ShopDAO;
-import com.tedu.mle.common.entity.ChildMenu;
-import com.tedu.mle.common.entity.FatherMenu;
-import com.tedu.mle.common.entity.Shop;
+import com.tedu.mle.shopend.dao.ChildMenuDAO;
+import com.tedu.mle.shopend.dao.FatherMenuDAO;
+import com.tedu.mle.shopend.dao.ShopDAO;
+import com.tedu.mle.shopend.entity.ChildMenu;
+import com.tedu.mle.shopend.entity.FatherMenu;
+import com.tedu.mle.shopend.entity.Shop;
 import com.tedu.mle.shopend.service.ShopService;
 import com.tedu.mle.common.vo.ShopVo;
 import org.springframework.beans.factory.annotation.Autowired;

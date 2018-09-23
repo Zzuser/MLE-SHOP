@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tedu.mle.common.dao.HorsemanDAO">
-  <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.Horseman">
+<mapper namespace="com.tedu.mle.shopend.dao.HorsemanDAO">
+  <resultMap id="BaseResultMap" type="com.tedu.mle.shopend.entity.Horseman">
     <id column="horseman_id" jdbcType="BIGINT" property="horsemanId" />
     <result column="horseman_phone" jdbcType="VARCHAR" property="horsemanPhone" />
     <result column="real_name" jdbcType="VARCHAR" property="realName" />
@@ -26,7 +26,7 @@
     delete from horseman
     where horseman_id = #{horsemanId,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.tedu.mle.common.entity.Horseman">
+  <insert id="insert" parameterType="com.tedu.mle.shopend.entity.Horseman">
     insert into horseman (horseman_id, horseman_phone, real_name, 
       idcard, total_shipping_num, ontime_shipping_num, 
       score, ontime_rate, createtime
@@ -36,7 +36,7 @@
       #{score,jdbcType=DOUBLE}, #{ontimeRate,jdbcType=DOUBLE}, #{createtime,jdbcType=DATE}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.tedu.mle.common.entity.Horseman">
+  <insert id="insertSelective" parameterType="com.tedu.mle.shopend.entity.Horseman">
     insert into horseman
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="horsemanId != null">
@@ -97,7 +97,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.Horseman">
+  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.shopend.entity.Horseman">
     update horseman
     <set>
       <if test="horsemanPhone != null">
@@ -127,7 +127,7 @@
     </set>
     where horseman_id = #{horsemanId,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.common.entity.Horseman">
+  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.shopend.entity.Horseman">
     update horseman
     set horseman_phone = #{horsemanPhone,jdbcType=VARCHAR},
       real_name = #{realName,jdbcType=VARCHAR},

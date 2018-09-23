@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tedu.mle.common.dao.UserDAO">
-  <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.User">
+<mapper namespace="com.tedu.mle.shopend.dao.UserDAO">
+  <resultMap id="BaseResultMap" type="com.tedu.mle.shopend.entity.User">
     <id column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
@@ -24,7 +24,7 @@
     delete from user
     where user_id = #{userId,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.tedu.mle.common.entity.User">
+  <insert id="insert" parameterType="com.tedu.mle.shopend.entity.User">
     insert into user (user_id, username, phone, 
       `password`, salt, createtime, 
       current_ip, `state`)
@@ -32,7 +32,7 @@
       #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{createtime,jdbcType=DATE}, 
       #{currentIp,jdbcType=VARCHAR}, #{state,jdbcType=BIT})
   </insert>
-  <insert id="insertSelective" parameterType="com.tedu.mle.common.entity.User">
+  <insert id="insertSelective" parameterType="com.tedu.mle.shopend.entity.User">
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -87,7 +87,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.User">
+  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.shopend.entity.User">
     update user
     <set>
       <if test="username != null">
@@ -114,7 +114,7 @@
     </set>
     where user_id = #{userId,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.common.entity.User">
+  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.shopend.entity.User">
     update user
     set username = #{username,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},

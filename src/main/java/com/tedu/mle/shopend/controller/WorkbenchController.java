@@ -12,6 +12,6 @@ public class WorkbenchController {
 
     @RequestMapping("doGetWorkbenchUI")
     public String doGetWorkbenchUI() {
-        return "shopend/workbench/workbench";
+        return "workbench/workbench";
     }
 }

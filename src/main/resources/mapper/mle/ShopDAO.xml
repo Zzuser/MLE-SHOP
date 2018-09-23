@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tedu.mle.common.dao.ShopDAO">
-    <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.Shop">
+<mapper namespace="com.tedu.mle.shopend.dao.ShopDAO">
+    <resultMap id="BaseResultMap" type="com.tedu.mle.shopend.entity.Shop">
         <id column="shop_id" jdbcType="BIGINT" property="shopId"/>
         <result column="shop_name" jdbcType="VARCHAR" property="shopName"/>
         <result column="phone" jdbcType="VARCHAR" property="phone"/>
@@ -44,7 +44,7 @@
         from shop
         where shop_id = #{shopId,jdbcType=BIGINT}
     </delete>
-    <insert id="insert" parameterType="com.tedu.mle.common.entity.Shop">
+    <insert id="insert" parameterType="com.tedu.mle.shopend.entity.Shop">
         insert into shop (shop_id,
                           shop_name,
                           phone,
@@ -84,7 +84,7 @@
                 #{minPrice,jdbcType=DOUBLE},
                 #{shippingFee,jdbcType=DOUBLE})
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.Shop">
+    <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.shopend.entity.Shop">
         update shop
         <set>
             <if test="shopName != null">
@@ -144,8 +144,8 @@
         </set>
         where shop_id = #{shopId,jdbcType=BIGINT}
     </update>
-    <resultMap id="WithDiscountListResultMap" type="com.tedu.mle.common.entity.Shop" extends="BaseResultMap">
-        <collection property="shopDiscountList" ofType="com.tedu.mle.common.entity.ShopDiscount">
+    <resultMap id="WithDiscountListResultMap" type="com.tedu.mle.shopend.entity.Shop" extends="BaseResultMap">
+        <collection property="shopDiscountList" ofType="com.tedu.mle.shopend.entity.ShopDiscount">
             <id column="discount_id" jdbcType="BIGINT" property="discountId"/>
             <result column="discount_name" jdbcType="VARCHAR" property="discountName"/>
             <result column="shop_id_f" jdbcType="BIGINT" property="shopIdF"/>
@@ -156,7 +156,7 @@
             <result column="d_createtime" jdbcType="DATE" property="createtime"/>
         </collection>
     </resultMap>
-    <select id="selectWithDiscountList" resultMap="WithDiscountListResultMap" parameterType="com.tedu.mle.common.entity.Shop">
+    <select id="selectWithDiscountList" resultMap="WithDiscountListResultMap" parameterType="com.tedu.mle.shopend.entity.Shop">
         select shop_id,
         shop_name,
         phone,

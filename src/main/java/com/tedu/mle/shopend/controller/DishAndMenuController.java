@@ -1,9 +1,9 @@
 package com.tedu.mle.shopend.controller;
 
 import com.tedu.mle.common.vo.JsonResult;
-import com.tedu.mle.common.entity.ChildMenu;
-import com.tedu.mle.common.entity.Dish;
-import com.tedu.mle.common.entity.FatherMenu;
+import com.tedu.mle.shopend.entity.ChildMenu;
+import com.tedu.mle.shopend.entity.Dish;
+import com.tedu.mle.shopend.entity.FatherMenu;
 import com.tedu.mle.shopend.service.ChildMenuService;
 import com.tedu.mle.shopend.service.DishService;
 import com.tedu.mle.shopend.service.FatherMenuService;
@@ -41,7 +41,7 @@ public class DishAndMenuController {
      */
     @RequestMapping("dojumpObject")
     public String dojumpObject(){
-		return "shopend/dish/menu_edit";
+		return "/dish/menu_edit";
     	
     }
     /**
@@ -51,7 +51,7 @@ public class DishAndMenuController {
      */
     @RequestMapping("doGetFatherMenuUI")
     public String doGetFatherMenuUI() {
-        return "shopend/dish/father_menu";
+        return "dish/father_menu";
     }
 
     /**
@@ -61,7 +61,7 @@ public class DishAndMenuController {
      */
     @RequestMapping("doGetChildMenuUI")
     public String doGetChildMenuUI() {
-        return "shopend/dish/child_menu";
+        return "dish/child_menu";
     }
     @RequestMapping("doDeleteDish")
     @ResponseBody

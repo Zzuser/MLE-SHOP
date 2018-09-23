@@ -1,7 +1,7 @@
 package com.tedu.mle.shopend.service;
 
-import com.tedu.mle.common.entity.FatherMenu;
-import com.tedu.mle.common.entity.Shop;
+import com.tedu.mle.shopend.entity.FatherMenu;
+import com.tedu.mle.shopend.entity.Shop;
 import com.tedu.mle.common.vo.ShopVo;
 
 

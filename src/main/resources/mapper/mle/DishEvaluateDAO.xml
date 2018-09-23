@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tedu.mle.common.dao.DishEvaluateDAO">
-  <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.DishEvaluate">
+<mapper namespace="com.tedu.mle.shopend.dao.DishEvaluateDAO">
+  <resultMap id="BaseResultMap" type="com.tedu.mle.shopend.entity.DishEvaluate">
     <id column="dish_evaluate_id" jdbcType="BIGINT" property="dishEvaluateId" />
     <result column="user_id_f" jdbcType="BIGINT" property="userIdF" />
     <result column="dish_id_f" jdbcType="BIGINT" property="dishIdF" />
@@ -24,7 +24,7 @@
     delete from dish_evaluate
     where dish_evaluate_id = #{dishEvaluateId,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.tedu.mle.common.entity.DishEvaluate">
+  <insert id="insert" parameterType="com.tedu.mle.shopend.entity.DishEvaluate">
     insert into dish_evaluate (dish_evaluate_id, user_id_f, dish_id_f, 
       `desc`, shop_reply, praise, 
       createtime, has_image)
@@ -32,7 +32,7 @@
       #{desc,jdbcType=VARCHAR}, #{shopReply,jdbcType=VARCHAR}, #{praise,jdbcType=BIT}, 
       #{createtime,jdbcType=DATE}, #{hasImage,jdbcType=BIT})
   </insert>
-  <insert id="insertSelective" parameterType="com.tedu.mle.common.entity.DishEvaluate">
+  <insert id="insertSelective" parameterType="com.tedu.mle.shopend.entity.DishEvaluate">
     insert into dish_evaluate
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="dishEvaluateId != null">
@@ -87,7 +87,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.DishEvaluate">
+  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.shopend.entity.DishEvaluate">
     update dish_evaluate
     <set>
       <if test="userIdF != null">
@@ -114,7 +114,7 @@
     </set>
     where dish_evaluate_id = #{dishEvaluateId,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.common.entity.DishEvaluate">
+  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.shopend.entity.DishEvaluate">
     update dish_evaluate
     set user_id_f = #{userIdF,jdbcType=BIGINT},
       dish_id_f = #{dishIdF,jdbcType=BIGINT},

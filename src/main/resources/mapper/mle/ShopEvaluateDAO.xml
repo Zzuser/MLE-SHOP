@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tedu.mle.common.dao.ShopEvaluateDAO">
-  <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.ShopEvaluate">
+<mapper namespace="com.tedu.mle.shopend.dao.ShopEvaluateDAO">
+  <resultMap id="BaseResultMap" type="com.tedu.mle.shopend.entity.ShopEvaluate">
     <id column="evaluate_id" jdbcType="BIGINT" property="evaluateId" />
     <result column="user_id_f" jdbcType="BIGINT" property="userIdF" />
     <result column="shop_id_f" jdbcType="BIGINT" property="shopIdF" />
@@ -27,7 +27,7 @@
     delete from shop_evaluate
     where evaluate_id = #{evaluateId,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.tedu.mle.common.entity.ShopEvaluate">
+  <insert id="insert" parameterType="com.tedu.mle.shopend.entity.ShopEvaluate">
     insert into shop_evaluate (evaluate_id, user_id_f, shop_id_f, 
       taste_score, package_score, main_score, 
       `desc`, shop_reply, has_image, 
@@ -37,7 +37,7 @@
       #{desc,jdbcType=VARCHAR}, #{shopReply,jdbcType=VARCHAR}, #{hasImage,jdbcType=BIT}, 
       #{createtime,jdbcType=DATE})
   </insert>
-  <insert id="insertSelective" parameterType="com.tedu.mle.common.entity.ShopEvaluate">
+  <insert id="insertSelective" parameterType="com.tedu.mle.shopend.entity.ShopEvaluate">
     insert into shop_evaluate
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="evaluateId != null">
@@ -104,7 +104,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.ShopEvaluate">
+  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.shopend.entity.ShopEvaluate">
     update shop_evaluate
     <set>
       <if test="userIdF != null">
@@ -137,7 +137,7 @@
     </set>
     where evaluate_id = #{evaluateId,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.common.entity.ShopEvaluate">
+  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.shopend.entity.ShopEvaluate">
     update shop_evaluate
     set user_id_f = #{userIdF,jdbcType=BIGINT},
       shop_id_f = #{shopIdF,jdbcType=BIGINT},

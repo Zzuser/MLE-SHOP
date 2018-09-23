@@ -1,8 +1,8 @@
 package com.tedu.mle.common.vo;
 
-import com.tedu.mle.common.entity.ChildMenu;
-import com.tedu.mle.common.entity.FatherMenu;
-import com.tedu.mle.common.entity.Shop;
+import com.tedu.mle.shopend.entity.ChildMenu;
+import com.tedu.mle.shopend.entity.FatherMenu;
+import com.tedu.mle.shopend.entity.Shop;
 
 import java.util.List;
 

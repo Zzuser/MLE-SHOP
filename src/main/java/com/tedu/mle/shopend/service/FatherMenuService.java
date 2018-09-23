@@ -1,10 +1,6 @@
 package com.tedu.mle.shopend.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.tedu.mle.common.dao.FatherMenuDAO;
-import com.tedu.mle.common.entity.FatherMenu;
+import com.tedu.mle.shopend.entity.FatherMenu;
 
 
 public interface FatherMenuService {
