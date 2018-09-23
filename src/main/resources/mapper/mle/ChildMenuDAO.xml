@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tedu.mle.common.dao.ChildMenuDAO">
+    <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.ChildMenu">
+        <id column="child_menu_id" jdbcType="BIGINT" property="childMenuId"/>
+        <result column="shop_id_f" jdbcType="BIGINT" property="shopIdF"/>
+        <result column="father_menu_id_f" jdbcType="BIGINT" property="fatherMenuIdF"/>
+        <result column="child_menu_name" jdbcType="VARCHAR" property="childMenuName"/>
+        <result column="child_menu_desc" jdbcType="VARCHAR" property="childMenuDesc"/>
+        <result column="createtime" jdbcType="DATE" property="createtime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        child_menu_id, shop_id_f, father_menu_id_f, child_menu_name, child_menu_desc, createtime
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from child_menu
+        where child_menu_id = #{childMenuId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from child_menu
+        where child_menu_id = #{childMenuId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.tedu.mle.common.entity.ChildMenu"
+     >
+        insert into child_menu (
+                                shop_id_f,
+                                father_menu_id_f,
+                                child_menu_name,
+                                child_menu_desc,
+                                createtime)
+        values (
+                #{shopIdF,jdbcType=BIGINT},
+                #{fatherMenuIdF,jdbcType=BIGINT},
+                #{childMenuName,jdbcType=VARCHAR},
+                #{childMenuDesc,jdbcType=VARCHAR},
+                #{createtime,jdbcType=DATE})
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.ChildMenu">
+        update child_menu
+        <set>
+            <if test="shopIdF != null">
+                shop_id_f = #{shopIdF,jdbcType=BIGINT},
+            </if>
+            <if test="fatherMenuIdF != null">
+                father_menu_id_f = #{fatherMenuIdF,jdbcType=BIGINT},
+            </if>
+            <if test="childMenuName != null">
+                child_menu_name = #{childMenuName,jdbcType=VARCHAR},
+            </if>
+            <if test="childMenuDesc != null">
+                child_menu_desc = #{childMenuDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                createtime = #{createtime,jdbcType=DATE},
+            </if>
+        </set>
+        where child_menu_id = #{childMenuId,jdbcType=BIGINT}
+    </update>
+    <resultMap id="hasDishList" type="com.tedu.mle.common.entity.ChildMenu" extends="BaseResultMap">
+        <collection property="dishList" ofType="com.tedu.mle.common.entity.Dish">
+            <id column="dish_id" jdbcType="BIGINT" property="dishId"/>
+            <result column="dish_name" jdbcType="VARCHAR" property="dishName"/>
+            <result column="d_shop_id_f" jdbcType="BIGINT" property="shopIdF"/>
+            <result column="image" jdbcType="VARCHAR" property="image"/>
+            <result column="d_createtime" jdbcType="DATE" property="createtime"/>
+            <result column="grade" jdbcType="DOUBLE" property="grade"/>
+            <result column="dish_desc" jdbcType="VARCHAR" property="dishDesc"/>
+            <result column="dish_discount" jdbcType="DOUBLE" property="dishDiscount"/>
+            <result column="state" jdbcType="BIT" property="state"/>
+            <result column="price" jdbcType="DOUBLE" property="price"/>
+            <result column="num" jdbcType="INTEGER" property="num"/>
+            <result column="saled_num" jdbcType="INTEGER" property="saledNum"/>
+        </collection>
+    </resultMap>
+    <select id="selectWithDishList" resultMap="hasDishList" parameterType="com.tedu.mle.common.entity.ChildMenu">
+        select child_menu_id,
+        cm.shop_id_f,
+        father_menu_id_f,
+        child_menu_name,
+        child_menu_desc,
+        cm.createtime,
+        dish_id,
+        dish_name,
+        d.shop_id_f as d_shop_id_f,
+        image,
+        d.createtime as d_createtime,
+        grade,
+        dish_desc,
+        dish_discount,
+        `state`,
+        price,
+        num,
+        saled_num
+        from child_menu cm
+        left join dish_with_child_menu dwcm on cm.child_menu_id = dwcm.child_menu_id_f
+        left join dish d on d.dish_id = dwcm.dish_id_f
+        <where>
+            <if test="childMenuId != null">
+                and child_menu_id = #{childMenuId,jdbcType=BIGINT}
+            </if>
+            <if test="shopIdF != null">
+                and shop_id_f = #{shopIdF,jdbcType=BIGINT}
+            </if>
+            <if test="fatherMenuIdF != null">
+                and father_menu_id_f = #{fatherMenuIdF,jdbcType=BIGINT}
+            </if>
+            <if test="childMenuName != null">
+                and child_menu_name = #{childMenuName,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+</mapper>

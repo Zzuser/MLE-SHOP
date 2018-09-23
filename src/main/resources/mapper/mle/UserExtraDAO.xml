@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tedu.mle.common.dao.UserExtraDAO">
+  <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.UserExtra">
+    <id column="user_extra_id" jdbcType="BIGINT" property="userExtraId" />
+    <result column="user_id_f" jdbcType="BIGINT" property="userIdF" />
+    <result column="qq" jdbcType="VARCHAR" property="qq" />
+    <result column="weixin" jdbcType="VARCHAR" property="weixin" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="idcard_num" jdbcType="VARCHAR" property="idcardNum" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_extra_id, user_id_f, qq, weixin, real_name, idcard_num
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_extra
+    where user_extra_id = #{userExtraId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from user_extra
+    where user_extra_id = #{userExtraId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tedu.mle.common.entity.UserExtra">
+    insert into user_extra (user_extra_id, user_id_f, qq, 
+      weixin, real_name, idcard_num
+      )
+    values (#{userExtraId,jdbcType=BIGINT}, #{userIdF,jdbcType=BIGINT}, #{qq,jdbcType=VARCHAR}, 
+      #{weixin,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{idcardNum,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tedu.mle.common.entity.UserExtra">
+    insert into user_extra
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userExtraId != null">
+        user_extra_id,
+      </if>
+      <if test="userIdF != null">
+        user_id_f,
+      </if>
+      <if test="qq != null">
+        qq,
+      </if>
+      <if test="weixin != null">
+        weixin,
+      </if>
+      <if test="realName != null">
+        real_name,
+      </if>
+      <if test="idcardNum != null">
+        idcard_num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userExtraId != null">
+        #{userExtraId,jdbcType=BIGINT},
+      </if>
+      <if test="userIdF != null">
+        #{userIdF,jdbcType=BIGINT},
+      </if>
+      <if test="qq != null">
+        #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="weixin != null">
+        #{weixin,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardNum != null">
+        #{idcardNum,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.UserExtra">
+    update user_extra
+    <set>
+      <if test="userIdF != null">
+        user_id_f = #{userIdF,jdbcType=BIGINT},
+      </if>
+      <if test="qq != null">
+        qq = #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="weixin != null">
+        weixin = #{weixin,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardNum != null">
+        idcard_num = #{idcardNum,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_extra_id = #{userExtraId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.common.entity.UserExtra">
+    update user_extra
+    set user_id_f = #{userIdF,jdbcType=BIGINT},
+      qq = #{qq,jdbcType=VARCHAR},
+      weixin = #{weixin,jdbcType=VARCHAR},
+      real_name = #{realName,jdbcType=VARCHAR},
+      idcard_num = #{idcardNum,jdbcType=VARCHAR}
+    where user_extra_id = #{userExtraId,jdbcType=BIGINT}
+  </update>
+</mapper>

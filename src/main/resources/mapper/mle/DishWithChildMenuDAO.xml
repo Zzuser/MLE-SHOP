@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tedu.mle.common.dao.DishWithChildMenuDAO">
+  <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.DishWithChildMenu">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="dish_id_f" jdbcType="BIGINT" property="dishIdF" />
+    <result column="child_menu_id_f" jdbcType="BIGINT" property="childMenuIdF" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, dish_id_f, child_menu_id_f
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultType="java.lang.Long">
+    select 
+     distinct dish_id_f
+    from dish_with_child_menu
+    where  child_menu_id_f = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dish_with_child_menu
+    where dish_id_f= #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tedu.mle.common.entity.DishWithChildMenu">
+    insert into dish_with_child_menu (child_menu_id_f,dish_id_f )
+    values (  
+     #{childMenuIdF},#{dishIdF}
+  )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tedu.mle.common.entity.DishWithChildMenu">
+    insert into dish_with_child_menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="dishIdF != null">
+        dish_id_f,
+      </if>
+      <if test="childMenuIdF != null">
+        child_menu_id_f,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="dishIdF != null">
+        #{dishIdF,jdbcType=BIGINT},
+      </if>
+      <if test="childMenuIdF != null">
+        #{childMenuIdF,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.DishWithChildMenu">
+    update dish_with_child_menu
+    <set>
+      <if test="dishIdF != null">
+        dish_id_f = #{dishIdF,jdbcType=BIGINT},
+      </if>
+      <if test="childMenuIdF != null">
+        child_menu_id_f = #{childMenuIdF,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.common.entity.DishWithChildMenu">
+    update dish_with_child_menu
+    set dish_id_f = #{dishIdF,jdbcType=BIGINT},
+      child_menu_id_f = #{childMenuIdF,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

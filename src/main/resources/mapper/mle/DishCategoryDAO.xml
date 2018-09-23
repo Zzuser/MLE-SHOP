@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tedu.mle.common.dao.DishCategoryDAO">
+  <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.DishCategory">
+    <id column="dish_category_id" jdbcType="BIGINT" property="dishCategoryId" />
+    <result column="dish_category_name" jdbcType="VARCHAR" property="dishCategoryName" />
+    <result column="desc" jdbcType="VARCHAR" property="desc" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    dish_category_id, dish_category_name, `desc`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dish_category
+    where dish_category_id = #{dishCategoryId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dish_category
+    where dish_category_id = #{dishCategoryId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tedu.mle.common.entity.DishCategory">
+    insert into dish_category (dish_category_id, dish_category_name, 
+      `desc`)
+    values (#{dishCategoryId,jdbcType=BIGINT}, #{dishCategoryName,jdbcType=VARCHAR}, 
+      #{desc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tedu.mle.common.entity.DishCategory">
+    insert into dish_category
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dishCategoryId != null">
+        dish_category_id,
+      </if>
+      <if test="dishCategoryName != null">
+        dish_category_name,
+      </if>
+      <if test="desc != null">
+        `desc`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dishCategoryId != null">
+        #{dishCategoryId,jdbcType=BIGINT},
+      </if>
+      <if test="dishCategoryName != null">
+        #{dishCategoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null">
+        #{desc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.DishCategory">
+    update dish_category
+    <set>
+      <if test="dishCategoryName != null">
+        dish_category_name = #{dishCategoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null">
+        `desc` = #{desc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where dish_category_id = #{dishCategoryId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.common.entity.DishCategory">
+    update dish_category
+    set dish_category_name = #{dishCategoryName,jdbcType=VARCHAR},
+      `desc` = #{desc,jdbcType=VARCHAR}
+    where dish_category_id = #{dishCategoryId,jdbcType=BIGINT}
+  </update>
+</mapper>

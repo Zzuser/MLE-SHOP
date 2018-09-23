@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tedu.mle.common.dao.ShopDAO">
+    <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.Shop">
+        <id column="shop_id" jdbcType="BIGINT" property="shopId"/>
+        <result column="shop_name" jdbcType="VARCHAR" property="shopName"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="manager_name" jdbcType="VARCHAR" property="managerName"/>
+        <result column="manager_idcard" jdbcType="VARCHAR" property="managerIdcard"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="salt" jdbcType="VARCHAR" property="salt"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="proclamation" jdbcType="VARCHAR" property="proclamation"/>
+        <result column="profile" jdbcType="VARCHAR" property="profile"/>
+        <result column="shop_hours" jdbcType="VARCHAR" property="shopHours"/>
+        <result column="state" jdbcType="BIT" property="state"/>
+        <result column="main_score" jdbcType="DOUBLE" property="mainScore"/>
+        <result column="createtime" jdbcType="DATE" property="createtime"/>
+        <result column="distribution_score" jdbcType="DOUBLE" property="distributionScore"/>
+        <result column="package_score" jdbcType="DOUBLE" property="packageScore"/>
+        <result column="taste_score" jdbcType="DOUBLE" property="tasteScore"/>
+        <result column="min_price" jdbcType="DOUBLE" property="minPrice"/>
+        <result column="shipping_fee" jdbcType="DOUBLE" property="shippingFee"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        shop_id, shop_name, phone, manager_name, manager_idcard, `password`, salt, address,
+        proclamation, profile, shop_hours, `state`, main_score, createtime, distribution_score,
+        package_score, taste_score, min_price, shipping_fee
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from shop
+        where shop_id = #{shopId,jdbcType=BIGINT}
+    </select>
+    <select id="selectByPhone" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from shop
+        where phone=#{phone}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from shop
+        where shop_id = #{shopId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.tedu.mle.common.entity.Shop">
+        insert into shop (shop_id,
+                          shop_name,
+                          phone,
+                          manager_name,
+                          manager_idcard,
+                          `password`,
+                          salt,
+                          address,
+                          proclamation,
+                          profile,
+                          shop_hours,
+                          `state`,
+                          main_score,
+                          createtime,
+                          distribution_score,
+                          package_score,
+                          taste_score,
+                          min_price,
+                          shipping_fee)
+        values (#{shopId,jdbcType=BIGINT},
+                #{shopName,jdbcType=VARCHAR},
+                #{phone,jdbcType=VARCHAR},
+                #{managerName,jdbcType=VARCHAR},
+                #{managerIdcard,jdbcType=VARCHAR},
+                #{password,jdbcType=VARCHAR},
+                #{salt,jdbcType=VARCHAR},
+                #{address,jdbcType=VARCHAR},
+                #{proclamation,jdbcType=VARCHAR},
+                #{profile,jdbcType=VARCHAR},
+                #{shopHours,jdbcType=VARCHAR},
+                #{state,jdbcType=BIT},
+                #{mainScore,jdbcType=DOUBLE},
+                #{createtime,jdbcType=DATE},
+                #{distributionScore,jdbcType=DOUBLE},
+                #{packageScore,jdbcType=DOUBLE},
+                #{tasteScore,jdbcType=DOUBLE},
+                #{minPrice,jdbcType=DOUBLE},
+                #{shippingFee,jdbcType=DOUBLE})
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.Shop">
+        update shop
+        <set>
+            <if test="shopName != null">
+                shop_name = #{shopName,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="managerName != null">
+                manager_name = #{managerName,jdbcType=VARCHAR},
+            </if>
+            <if test="managerIdcard != null">
+                manager_idcard = #{managerIdcard,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                `password` = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="salt != null">
+                salt = #{salt,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="proclamation != null">
+                proclamation = #{proclamation,jdbcType=VARCHAR},
+            </if>
+            <if test="profile != null">
+                profile = #{profile,jdbcType=VARCHAR},
+            </if>
+            <if test="shopHours != null">
+                shop_hours = #{shopHours,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                `state` = #{state,jdbcType=BIT},
+            </if>
+            <if test="mainScore != null">
+                main_score = #{mainScore,jdbcType=DOUBLE},
+            </if>
+            <if test="createtime != null">
+                createtime = #{createtime,jdbcType=DATE},
+            </if>
+            <if test="distributionScore != null">
+                distribution_score = #{distributionScore,jdbcType=DOUBLE},
+            </if>
+            <if test="packageScore != null">
+                package_score = #{packageScore,jdbcType=DOUBLE},
+            </if>
+            <if test="tasteScore != null">
+                taste_score = #{tasteScore,jdbcType=DOUBLE},
+            </if>
+            <if test="minPrice != null">
+                min_price = #{minPrice,jdbcType=DOUBLE},
+            </if>
+            <if test="shippingFee != null">
+                shipping_fee = #{shippingFee,jdbcType=DOUBLE},
+            </if>
+        </set>
+        where shop_id = #{shopId,jdbcType=BIGINT}
+    </update>
+    <resultMap id="WithDiscountListResultMap" type="com.tedu.mle.common.entity.Shop" extends="BaseResultMap">
+        <collection property="shopDiscountList" ofType="com.tedu.mle.common.entity.ShopDiscount">
+            <id column="discount_id" jdbcType="BIGINT" property="discountId"/>
+            <result column="discount_name" jdbcType="VARCHAR" property="discountName"/>
+            <result column="shop_id_f" jdbcType="BIGINT" property="shopIdF"/>
+            <result column="desc" jdbcType="VARCHAR" property="desc"/>
+            <result column="percent" jdbcType="DOUBLE" property="percent"/>
+            <result column="direct" jdbcType="DOUBLE" property="direct"/>
+            <result column="d_min_price" jdbcType="DOUBLE" property="minPrice"/>
+            <result column="d_createtime" jdbcType="DATE" property="createtime"/>
+        </collection>
+    </resultMap>
+    <select id="selectWithDiscountList" resultMap="WithDiscountListResultMap" parameterType="com.tedu.mle.common.entity.Shop">
+        select shop_id,
+        shop_name,
+        phone,
+        manager_name,
+        manager_idcard,
+        `password`,
+        salt,
+        address,
+        proclamation,
+        profile,
+        shop_hours,
+        `state`,
+        main_score,
+        s.createtime,
+        distribution_score,
+        package_score,
+        taste_score,
+        s.min_price,
+        shipping_fee,
+        discount_id,
+        discount_name,
+        shop_id_f,
+        `desc`,
+        `percent`,
+        direct,
+        sd.min_price as d_min_price,
+        sd.createtime as d_createtime
+        from shop s left join
+        shop_discount sd
+        on
+        s.shop_id = sd.shop_id_f
+        <if test="shopId != null">
+            and shop_id =#{shopId}
+        </if>
+        <if test="shopName != null">
+            and shop_name=concat('%'+#{shopName}+'%')
+        </if>
+        <if test="phone != null">
+            and phone=#{phone}
+        </if>
+    </select>
+
+    <select id="selectWithDiscountListByCategoryId" resultMap="WithDiscountListResultMap">
+        select shop_id,
+        shop_name,
+        phone,
+        manager_name,
+        manager_idcard,
+        `password`,
+        salt,
+        address,
+        proclamation,
+        profile,
+        shop_hours,
+        `state`,
+        main_score,
+        s.createtime,
+        distribution_score,
+        package_score,
+        taste_score,
+        s.min_price,
+        shipping_fee,
+        discount_id,
+        discount_name,
+        shop_id_f,
+        `desc`,
+        `percent`,
+        direct,
+        sd.min_price as d_min_price,
+        sd.createtime as d_createtime
+        from shop s
+        left join shop_discount sd on s.shop_id = sd.shop_id_f
+        and shop_id in (select shop_id_f
+        from shop_with_category swc,
+        shop_category sc
+        <where>
+            swc.shop_category_id_f = sc.shop_category_id
+            <if test="shopCategoryId!=0 and shopCategoryId!=null">
+                and sc.shop_category_id = #{shopCategoryId}
+            </if>
+        </where>
+        )
+    </select>
+</mapper>

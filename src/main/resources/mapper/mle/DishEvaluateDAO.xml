@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tedu.mle.common.dao.DishEvaluateDAO">
+  <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.DishEvaluate">
+    <id column="dish_evaluate_id" jdbcType="BIGINT" property="dishEvaluateId" />
+    <result column="user_id_f" jdbcType="BIGINT" property="userIdF" />
+    <result column="dish_id_f" jdbcType="BIGINT" property="dishIdF" />
+    <result column="desc" jdbcType="VARCHAR" property="desc" />
+    <result column="shop_reply" jdbcType="VARCHAR" property="shopReply" />
+    <result column="praise" jdbcType="BIT" property="praise" />
+    <result column="createtime" jdbcType="DATE" property="createtime" />
+    <result column="has_image" jdbcType="BIT" property="hasImage" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    dish_evaluate_id, user_id_f, dish_id_f, `desc`, shop_reply, praise, createtime, has_image
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dish_evaluate
+    where dish_evaluate_id = #{dishEvaluateId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dish_evaluate
+    where dish_evaluate_id = #{dishEvaluateId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tedu.mle.common.entity.DishEvaluate">
+    insert into dish_evaluate (dish_evaluate_id, user_id_f, dish_id_f, 
+      `desc`, shop_reply, praise, 
+      createtime, has_image)
+    values (#{dishEvaluateId,jdbcType=BIGINT}, #{userIdF,jdbcType=BIGINT}, #{dishIdF,jdbcType=BIGINT}, 
+      #{desc,jdbcType=VARCHAR}, #{shopReply,jdbcType=VARCHAR}, #{praise,jdbcType=BIT}, 
+      #{createtime,jdbcType=DATE}, #{hasImage,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tedu.mle.common.entity.DishEvaluate">
+    insert into dish_evaluate
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dishEvaluateId != null">
+        dish_evaluate_id,
+      </if>
+      <if test="userIdF != null">
+        user_id_f,
+      </if>
+      <if test="dishIdF != null">
+        dish_id_f,
+      </if>
+      <if test="desc != null">
+        `desc`,
+      </if>
+      <if test="shopReply != null">
+        shop_reply,
+      </if>
+      <if test="praise != null">
+        praise,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="hasImage != null">
+        has_image,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dishEvaluateId != null">
+        #{dishEvaluateId,jdbcType=BIGINT},
+      </if>
+      <if test="userIdF != null">
+        #{userIdF,jdbcType=BIGINT},
+      </if>
+      <if test="dishIdF != null">
+        #{dishIdF,jdbcType=BIGINT},
+      </if>
+      <if test="desc != null">
+        #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="shopReply != null">
+        #{shopReply,jdbcType=VARCHAR},
+      </if>
+      <if test="praise != null">
+        #{praise,jdbcType=BIT},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=DATE},
+      </if>
+      <if test="hasImage != null">
+        #{hasImage,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.DishEvaluate">
+    update dish_evaluate
+    <set>
+      <if test="userIdF != null">
+        user_id_f = #{userIdF,jdbcType=BIGINT},
+      </if>
+      <if test="dishIdF != null">
+        dish_id_f = #{dishIdF,jdbcType=BIGINT},
+      </if>
+      <if test="desc != null">
+        `desc` = #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="shopReply != null">
+        shop_reply = #{shopReply,jdbcType=VARCHAR},
+      </if>
+      <if test="praise != null">
+        praise = #{praise,jdbcType=BIT},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=DATE},
+      </if>
+      <if test="hasImage != null">
+        has_image = #{hasImage,jdbcType=BIT},
+      </if>
+    </set>
+    where dish_evaluate_id = #{dishEvaluateId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.common.entity.DishEvaluate">
+    update dish_evaluate
+    set user_id_f = #{userIdF,jdbcType=BIGINT},
+      dish_id_f = #{dishIdF,jdbcType=BIGINT},
+      `desc` = #{desc,jdbcType=VARCHAR},
+      shop_reply = #{shopReply,jdbcType=VARCHAR},
+      praise = #{praise,jdbcType=BIT},
+      createtime = #{createtime,jdbcType=DATE},
+      has_image = #{hasImage,jdbcType=BIT}
+    where dish_evaluate_id = #{dishEvaluateId,jdbcType=BIGINT}
+  </update>
+</mapper>

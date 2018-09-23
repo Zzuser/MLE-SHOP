@@ -1,0 +1,149 @@
+<!-- Horizontal Form -->
+<div class="box box-info">
+	<div class="box-header with-border">
+		<h3 class="box-title">添加菜品</h3>
+	</div>
+	<!-- /.box-header -->
+	<!-- form start -->
+	<form class="form-horizontal">
+		    <div class="form-group">	
+				<label for="nameId" class="col-sm-2 control-label">菜品名称</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="nameId"
+						placeholder="名称">
+				</div>		
+			</div>
+			<div class="form-group">
+				<label for="nameId" class="col-sm-2 control-label">菜品图片</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="gifId"
+						placeholder="图片">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="parentId" class="col-sm-2 control-label">菜品描述</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control load-sys-menu" id="describeId" placeholder="介绍一下自己">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="urlId" class="col-sm-2 control-label">菜品折扣</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="discountId"
+						placeholder="折扣">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="permissionId" class="col-sm-2 control-label">菜品状态</label>
+				<div class="col-sm-8">
+					<input type="text" id="stateId"
+						placeholder="状态" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="sortId" class="col-sm-2 control-label">菜品价格</label>
+				<div class="col-sm-8">
+					<input type="text" id="priceId" placeholder="价格"
+						class="form-control">
+				</div>
+			</div>
+		<!-- /.box-body -->
+		<div class="box-footer">
+			<button type="button" class="btn btn-default btn-cancel">Cancel</button>
+			<button type="button" class="btn btn-info pull-right btn-save">Save</button>
+		</div>
+		<!-- /.box-footer -->
+	</form>
+	<!-- zTree 对应的div -->
+	<div class="layui-layer layui-layer-page layui-layer-molv layer-anim"
+		id="menuLayer" type="page" times="2" showtime="0" contype="object"
+		style="z-index: 59891016; width: 300px; height: 450px; top: 100px; left: 500px; display: none">
+		<div class="layui-layer-title" style="cursor: move;">选择菜单</div>
+		<div class="layui-layer-content" style="height: 358px;">
+			<div style="padding: 10px;" class="layui-layer-wrap">
+				<ul id="menuTree" class="ztree"></ul>
+				<!-- 动态加载树 -->
+			</div>
+		</div>
+		<span class="layui-layer-setwin"> <a
+			class="layui-layer-ico layui-layer-close layui-layer-close1 btn-cancel"></a></span>
+		<div class="layui-layer-btn layui-layer-btn-">
+			<a class="layui-layer-btn0 btn-confirm">确定</a> <a
+				class="layui-layer-btn1 btn-cancel">取消</a>
+		</div>
+	</div>
+
+</div>
+<script type="text/javascript"
+	src="bower_components/ztree/jquery.ztree.all.min.js"></script>
+<script type="text/javascript" src="bower_components/layer/layer.js">
+  </script>
+<script type="text/javascript">
+$(function(){
+	
+ $(".box-footer").on("click",".btn-cancel",doCancel).on("click",".btn-save",doSaveOrUpdate)
+ var data=$("#mainContentId").data("rowData");
+ if(data)doInitEditFormData(data);
+});
+  function doInitEditFormData(data){
+		/*   $("input[type='radio']").each(function(){
+			  if($(this).val()==data.type){
+				  $(this).prop("checked",true);
+			  }
+		  }) */
+		  
+		  $("#nameId").val(data.dishName);
+		  $("#gifId").val(data.image);
+		  $("#describeId").val(data.dishDesc);
+		  $("#discountId").val(data.dishDiscount);
+		  $("#stateId").val(data.state);
+		  $("#priceId").val(data.price);
+	  }
+  function doCancel(){
+	  $("#mainContentId").removeData();
+	  var url="dishAndMenu/doGetFatherMenuUI.do";
+	  $("#mainContentId").load(url);	 
+  }
+ function doSaveOrUpdate(){
+	 var AllData=$("#mainContentId").data("AllData");
+	  console.log(AllData);
+	  var params=doGetEditFormData(AllData);
+	  console.log(params);
+	  var rowData=$("#mainContentId").data("rowData");
+	  var saveurl="dishAndMenu/doAddDishObjects.do";
+	  var updateurl="dishAndMenu/doUpdateDishObjects.do";
+	  var url=rowData?updateurl:saveurl;
+	  if(rowData)params.dishId=rowData.dishId;
+	  $.post(url,params,function(result){
+		  if(result.state==1){
+			  alert(result.message)
+			  doCancel();
+		  }else{
+			  alert(result.message)
+		  }
+	  })	  
+ }
+ function doGetEditFormData(AllData){
+ var params={	
+		 dishName:$("#nameId").val(),  
+		 shopIdF:AllData.childMenuId,
+		 image:$("#gifId").val(),	
+		 grade:0,
+		 dishDesc:$("#describeId").val(),
+		 dishDiscount:$("#discountId").val(),
+		 state:$("#stateId").val(),
+		 price:$("#priceId").val(),
+		 num:null,
+		 saledNum:null
+		   }
+  return params;
+}
+ </script>
+
+
+
+
+
+
+
+

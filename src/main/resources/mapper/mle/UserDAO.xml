@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tedu.mle.common.dao.UserDAO">
+  <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.User">
+    <id column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="salt" jdbcType="VARCHAR" property="salt" />
+    <result column="createtime" jdbcType="DATE" property="createtime" />
+    <result column="current_ip" jdbcType="VARCHAR" property="currentIp" />
+    <result column="state" jdbcType="BIT" property="state" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, username, phone, `password`, salt, createtime, current_ip, `state`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tedu.mle.common.entity.User">
+    insert into user (user_id, username, phone, 
+      `password`, salt, createtime, 
+      current_ip, `state`)
+    values (#{userId,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{createtime,jdbcType=DATE}, 
+      #{currentIp,jdbcType=VARCHAR}, #{state,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tedu.mle.common.entity.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="salt != null">
+        salt,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="currentIp != null">
+        current_ip,
+      </if>
+      <if test="state != null">
+        `state`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null">
+        #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=DATE},
+      </if>
+      <if test="currentIp != null">
+        #{currentIp,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.User">
+    update user
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null">
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=DATE},
+      </if>
+      <if test="currentIp != null">
+        current_ip = #{currentIp,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        `state` = #{state,jdbcType=BIT},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.common.entity.User">
+    update user
+    set username = #{username,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      salt = #{salt,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=DATE},
+      current_ip = #{currentIp,jdbcType=VARCHAR},
+      `state` = #{state,jdbcType=BIT}
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+</mapper>

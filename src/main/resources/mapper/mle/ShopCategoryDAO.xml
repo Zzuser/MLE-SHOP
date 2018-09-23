@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tedu.mle.common.dao.ShopCategoryDAO">
+  <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.ShopCategory">
+    <id column="shop_category_id" jdbcType="BIGINT" property="shopCategoryId" />
+    <result column="shop_category_name" jdbcType="VARCHAR" property="shopCategoryName" />
+    <result column="shop_category_desc" jdbcType="VARCHAR" property="shopCategoryDesc" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    shop_category_id, shop_category_name, shop_category_desc
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shop_category
+    where shop_category_id = #{shopCategoryId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from shop_category
+    where shop_category_id = #{shopCategoryId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tedu.mle.common.entity.ShopCategory">
+    insert into shop_category (shop_category_id, shop_category_name, 
+      shop_category_desc)
+    values (#{shopCategoryId,jdbcType=BIGINT}, #{shopCategoryName,jdbcType=VARCHAR}, 
+      #{shopCategoryDesc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tedu.mle.common.entity.ShopCategory">
+    insert into shop_category
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="shopCategoryId != null">
+        shop_category_id,
+      </if>
+      <if test="shopCategoryName != null">
+        shop_category_name,
+      </if>
+      <if test="shopCategoryDesc != null">
+        shop_category_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="shopCategoryId != null">
+        #{shopCategoryId,jdbcType=BIGINT},
+      </if>
+      <if test="shopCategoryName != null">
+        #{shopCategoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopCategoryDesc != null">
+        #{shopCategoryDesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.ShopCategory">
+    update shop_category
+    <set>
+      <if test="shopCategoryName != null">
+        shop_category_name = #{shopCategoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopCategoryDesc != null">
+        shop_category_desc = #{shopCategoryDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where shop_category_id = #{shopCategoryId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.common.entity.ShopCategory">
+    update shop_category
+    set shop_category_name = #{shopCategoryName,jdbcType=VARCHAR},
+      shop_category_desc = #{shopCategoryDesc,jdbcType=VARCHAR}
+    where shop_category_id = #{shopCategoryId,jdbcType=BIGINT}
+  </update>
+</mapper>

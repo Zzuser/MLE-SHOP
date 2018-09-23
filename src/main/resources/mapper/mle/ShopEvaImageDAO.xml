@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tedu.mle.common.dao.ShopEvaImageDAO">
+  <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.ShopEvaImage">
+    <id column="shop_eva_image_id" jdbcType="BIGINT" property="shopEvaImageId" />
+    <result column="shop_eva_id_f" jdbcType="BIGINT" property="shopEvaIdF" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="desc" jdbcType="VARCHAR" property="desc" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    shop_eva_image_id, shop_eva_id_f, url, `desc`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shop_eva_image
+    where shop_eva_image_id = #{shopEvaImageId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from shop_eva_image
+    where shop_eva_image_id = #{shopEvaImageId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tedu.mle.common.entity.ShopEvaImage">
+    insert into shop_eva_image (shop_eva_image_id, shop_eva_id_f, url, 
+      `desc`)
+    values (#{shopEvaImageId,jdbcType=BIGINT}, #{shopEvaIdF,jdbcType=BIGINT}, #{url,jdbcType=VARCHAR}, 
+      #{desc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tedu.mle.common.entity.ShopEvaImage">
+    insert into shop_eva_image
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="shopEvaImageId != null">
+        shop_eva_image_id,
+      </if>
+      <if test="shopEvaIdF != null">
+        shop_eva_id_f,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="desc != null">
+        `desc`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="shopEvaImageId != null">
+        #{shopEvaImageId,jdbcType=BIGINT},
+      </if>
+      <if test="shopEvaIdF != null">
+        #{shopEvaIdF,jdbcType=BIGINT},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null">
+        #{desc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.ShopEvaImage">
+    update shop_eva_image
+    <set>
+      <if test="shopEvaIdF != null">
+        shop_eva_id_f = #{shopEvaIdF,jdbcType=BIGINT},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null">
+        `desc` = #{desc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where shop_eva_image_id = #{shopEvaImageId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.common.entity.ShopEvaImage">
+    update shop_eva_image
+    set shop_eva_id_f = #{shopEvaIdF,jdbcType=BIGINT},
+      url = #{url,jdbcType=VARCHAR},
+      `desc` = #{desc,jdbcType=VARCHAR}
+    where shop_eva_image_id = #{shopEvaImageId,jdbcType=BIGINT}
+  </update>
+</mapper>

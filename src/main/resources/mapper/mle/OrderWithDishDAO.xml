@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tedu.mle.common.dao.OrderWithDishDAO">
+  <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.OrderWithDish">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="order_id_f" jdbcType="BIGINT" property="orderIdF" />
+    <result column="dish_id_f" jdbcType="BIGINT" property="dishIdF" />
+    <result column="dish_num" jdbcType="INTEGER" property="dishNum" />
+    <result column="total_price" jdbcType="DOUBLE" property="totalPrice" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, order_id_f, dish_id_f, dish_num, total_price
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from order_with_dish
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from order_with_dish
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tedu.mle.common.entity.OrderWithDish">
+    insert into order_with_dish (id, order_id_f, dish_id_f, 
+      dish_num, total_price)
+    values (#{id,jdbcType=BIGINT}, #{orderIdF,jdbcType=BIGINT}, #{dishIdF,jdbcType=BIGINT}, 
+      #{dishNum,jdbcType=INTEGER}, #{totalPrice,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tedu.mle.common.entity.OrderWithDish">
+    insert into order_with_dish
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderIdF != null">
+        order_id_f,
+      </if>
+      <if test="dishIdF != null">
+        dish_id_f,
+      </if>
+      <if test="dishNum != null">
+        dish_num,
+      </if>
+      <if test="totalPrice != null">
+        total_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderIdF != null">
+        #{orderIdF,jdbcType=BIGINT},
+      </if>
+      <if test="dishIdF != null">
+        #{dishIdF,jdbcType=BIGINT},
+      </if>
+      <if test="dishNum != null">
+        #{dishNum,jdbcType=INTEGER},
+      </if>
+      <if test="totalPrice != null">
+        #{totalPrice,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.OrderWithDish">
+    update order_with_dish
+    <set>
+      <if test="orderIdF != null">
+        order_id_f = #{orderIdF,jdbcType=BIGINT},
+      </if>
+      <if test="dishIdF != null">
+        dish_id_f = #{dishIdF,jdbcType=BIGINT},
+      </if>
+      <if test="dishNum != null">
+        dish_num = #{dishNum,jdbcType=INTEGER},
+      </if>
+      <if test="totalPrice != null">
+        total_price = #{totalPrice,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.common.entity.OrderWithDish">
+    update order_with_dish
+    set order_id_f = #{orderIdF,jdbcType=BIGINT},
+      dish_id_f = #{dishIdF,jdbcType=BIGINT},
+      dish_num = #{dishNum,jdbcType=INTEGER},
+      total_price = #{totalPrice,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

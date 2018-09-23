@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tedu.mle.common.dao.UserAddressDAO">
+  <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.UserAddress">
+    <id column="user_address_id" jdbcType="BIGINT" property="userAddressId" />
+    <result column="user_id_f" jdbcType="BIGINT" property="userIdF" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_address_id, user_id_f, address
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_address
+    where user_address_id = #{userAddressId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from user_address
+    where user_address_id = #{userAddressId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tedu.mle.common.entity.UserAddress">
+    insert into user_address (user_address_id, user_id_f, address
+      )
+    values (#{userAddressId,jdbcType=BIGINT}, #{userIdF,jdbcType=BIGINT}, #{address,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tedu.mle.common.entity.UserAddress">
+    insert into user_address
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userAddressId != null">
+        user_address_id,
+      </if>
+      <if test="userIdF != null">
+        user_id_f,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userAddressId != null">
+        #{userAddressId,jdbcType=BIGINT},
+      </if>
+      <if test="userIdF != null">
+        #{userIdF,jdbcType=BIGINT},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.UserAddress">
+    update user_address
+    <set>
+      <if test="userIdF != null">
+        user_id_f = #{userIdF,jdbcType=BIGINT},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_address_id = #{userAddressId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.common.entity.UserAddress">
+    update user_address
+    set user_id_f = #{userIdF,jdbcType=BIGINT},
+      address = #{address,jdbcType=VARCHAR}
+    where user_address_id = #{userAddressId,jdbcType=BIGINT}
+  </update>
+</mapper>

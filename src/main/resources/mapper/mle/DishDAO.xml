@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tedu.mle.common.dao.DishDAO">
+    <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.Dish">
+        <id column="dish_id" jdbcType="BIGINT" property="dishId"/>
+        <result column="dish_name" jdbcType="VARCHAR" property="dishName"/>
+        <result column="shop_id_f" jdbcType="BIGINT" property="shopIdF"/>
+        <result column="image" jdbcType="VARCHAR" property="image"/>
+        <result column="createtime" jdbcType="DATE" property="createtime"/>
+        <result column="grade" jdbcType="DOUBLE" property="grade"/>
+        <result column="dish_desc" jdbcType="VARCHAR" property="dishDesc"/>
+        <result column="dish_discount" jdbcType="DOUBLE" property="dishDiscount"/>
+        <result column="state" jdbcType="BIT" property="state"/>
+        <result column="price" jdbcType="DOUBLE" property="price"/>
+        <result column="num" jdbcType="INTEGER" property="num"/>
+        <result column="saled_num" jdbcType="INTEGER" property="saledNum"/>
+    </resultMap>
+    <!--dish表所有列-->
+    <sql id="Base_Column_List">
+        dish_id, dish_name, shop_id_f, image, createtime, grade, dish_desc, dish_discount,
+        `state`, price, num, saled_num
+    </sql>
+
+    <select id="selectByChildId"  resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dish
+        where dish_id in 
+        <foreach collection="ChildId" open="(" close=")"  separator="," item="dishId">
+        #{dishId}
+        </foreach>
+    </select>
+    
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultType="java.lang.Long">
+        select
+        dish_id
+        from dish
+        where shop_id_f = #{shopIdF,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectLikeName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from dish
+        where
+        and dish_name like concat('%'+#{dishName,jdbcType=VARCHAR}+'%')
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from dish
+        where dish_id = #{dishId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.tedu.mle.common.entity.Dish" useGeneratedKeys="true"
+    keyProperty="dishId">
+        insert into dish (
+                          dish_name,
+                          shop_id_f,
+                          image,
+                          createtime,
+                          grade,
+                          dish_desc,
+                          dish_discount,
+                          `state`,
+                          price,
+                          num,
+                          saled_num)
+        values (
+                #{dishName,jdbcType=VARCHAR},
+                #{shopIdF,jdbcType=BIGINT},
+                #{image,jdbcType=VARCHAR},
+                now(),
+                #{grade,jdbcType=DOUBLE},
+                #{dishDesc,jdbcType=VARCHAR},
+                #{dishDiscount,jdbcType=DOUBLE},
+                #{state,jdbcType=BIT},
+                #{price,jdbcType=DOUBLE},
+                #{num,jdbcType=INTEGER},
+                #{saledNum,jdbcType=INTEGER})
+
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.Dish">
+        update dish
+        <set>
+            <if test="dishName != null">
+                dish_name = #{dishName,jdbcType=VARCHAR},
+            </if>
+            <if test="shopIdF != null">
+                shop_id_f = #{shopIdF,jdbcType=BIGINT},
+            </if>
+            <if test="image != null">
+                image = #{image,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                createtime = #{createtime,jdbcType=DATE},
+            </if>
+            <if test="grade != null">
+                grade = #{grade,jdbcType=DOUBLE},
+            </if>
+            <if test="dishDesc != null">
+                dish_desc = #{dishDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="dishDiscount != null">
+                dish_discount = #{dishDiscount,jdbcType=DOUBLE},
+            </if>
+            <if test="state != null">
+                `state` = #{state,jdbcType=BIT},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=DOUBLE},
+            </if>
+            <if test="num != null">
+                num = #{num,jdbcType=INTEGER},
+            </if>
+            <if test="saledNum != null">
+                saled_num = #{saledNum,jdbcType=INTEGER},
+            </if>
+        </set>
+        where dish_id = #{dishId,jdbcType=BIGINT}
+    </update>
+</mapper>

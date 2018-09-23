@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tedu.mle.common.dao.DishEvaImageDAO">
+  <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.DishEvaImage">
+    <id column="dish_eva_image_id" jdbcType="BIGINT" property="dishEvaImageId" />
+    <result column="dish_eva_id_f" jdbcType="BIGINT" property="dishEvaIdF" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="desc" jdbcType="VARCHAR" property="desc" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    dish_eva_image_id, dish_eva_id_f, url, `desc`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dish_eva_image
+    where dish_eva_image_id = #{dishEvaImageId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from dish_eva_image
+    where dish_eva_image_id = #{dishEvaImageId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tedu.mle.common.entity.DishEvaImage">
+    insert into dish_eva_image (dish_eva_image_id, dish_eva_id_f, url, 
+      `desc`)
+    values (#{dishEvaImageId,jdbcType=BIGINT}, #{dishEvaIdF,jdbcType=BIGINT}, #{url,jdbcType=VARCHAR}, 
+      #{desc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tedu.mle.common.entity.DishEvaImage">
+    insert into dish_eva_image
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dishEvaImageId != null">
+        dish_eva_image_id,
+      </if>
+      <if test="dishEvaIdF != null">
+        dish_eva_id_f,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="desc != null">
+        `desc`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dishEvaImageId != null">
+        #{dishEvaImageId,jdbcType=BIGINT},
+      </if>
+      <if test="dishEvaIdF != null">
+        #{dishEvaIdF,jdbcType=BIGINT},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null">
+        #{desc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.DishEvaImage">
+    update dish_eva_image
+    <set>
+      <if test="dishEvaIdF != null">
+        dish_eva_id_f = #{dishEvaIdF,jdbcType=BIGINT},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null">
+        `desc` = #{desc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where dish_eva_image_id = #{dishEvaImageId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.common.entity.DishEvaImage">
+    update dish_eva_image
+    set dish_eva_id_f = #{dishEvaIdF,jdbcType=BIGINT},
+      url = #{url,jdbcType=VARCHAR},
+      `desc` = #{desc,jdbcType=VARCHAR}
+    where dish_eva_image_id = #{dishEvaImageId,jdbcType=BIGINT}
+  </update>
+</mapper>

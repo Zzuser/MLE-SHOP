@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tedu.mle.common.dao.HorsemanDAO">
+  <resultMap id="BaseResultMap" type="com.tedu.mle.common.entity.Horseman">
+    <id column="horseman_id" jdbcType="BIGINT" property="horsemanId" />
+    <result column="horseman_phone" jdbcType="VARCHAR" property="horsemanPhone" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+    <result column="total_shipping_num" jdbcType="INTEGER" property="totalShippingNum" />
+    <result column="ontime_shipping_num" jdbcType="INTEGER" property="ontimeShippingNum" />
+    <result column="score" jdbcType="DOUBLE" property="score" />
+    <result column="ontime_rate" jdbcType="DOUBLE" property="ontimeRate" />
+    <result column="createtime" jdbcType="DATE" property="createtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    horseman_id, horseman_phone, real_name, idcard, total_shipping_num, ontime_shipping_num, 
+    score, ontime_rate, createtime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from horseman
+    where horseman_id = #{horsemanId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from horseman
+    where horseman_id = #{horsemanId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tedu.mle.common.entity.Horseman">
+    insert into horseman (horseman_id, horseman_phone, real_name, 
+      idcard, total_shipping_num, ontime_shipping_num, 
+      score, ontime_rate, createtime
+      )
+    values (#{horsemanId,jdbcType=BIGINT}, #{horsemanPhone,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, 
+      #{idcard,jdbcType=VARCHAR}, #{totalShippingNum,jdbcType=INTEGER}, #{ontimeShippingNum,jdbcType=INTEGER}, 
+      #{score,jdbcType=DOUBLE}, #{ontimeRate,jdbcType=DOUBLE}, #{createtime,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tedu.mle.common.entity.Horseman">
+    insert into horseman
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="horsemanId != null">
+        horseman_id,
+      </if>
+      <if test="horsemanPhone != null">
+        horseman_phone,
+      </if>
+      <if test="realName != null">
+        real_name,
+      </if>
+      <if test="idcard != null">
+        idcard,
+      </if>
+      <if test="totalShippingNum != null">
+        total_shipping_num,
+      </if>
+      <if test="ontimeShippingNum != null">
+        ontime_shipping_num,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+      <if test="ontimeRate != null">
+        ontime_rate,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="horsemanId != null">
+        #{horsemanId,jdbcType=BIGINT},
+      </if>
+      <if test="horsemanPhone != null">
+        #{horsemanPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null">
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="totalShippingNum != null">
+        #{totalShippingNum,jdbcType=INTEGER},
+      </if>
+      <if test="ontimeShippingNum != null">
+        #{ontimeShippingNum,jdbcType=INTEGER},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="ontimeRate != null">
+        #{ontimeRate,jdbcType=DOUBLE},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.common.entity.Horseman">
+    update horseman
+    <set>
+      <if test="horsemanPhone != null">
+        horseman_phone = #{horsemanPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null">
+        idcard = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="totalShippingNum != null">
+        total_shipping_num = #{totalShippingNum,jdbcType=INTEGER},
+      </if>
+      <if test="ontimeShippingNum != null">
+        ontime_shipping_num = #{ontimeShippingNum,jdbcType=INTEGER},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="ontimeRate != null">
+        ontime_rate = #{ontimeRate,jdbcType=DOUBLE},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=DATE},
+      </if>
+    </set>
+    where horseman_id = #{horsemanId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tedu.mle.common.entity.Horseman">
+    update horseman
+    set horseman_phone = #{horsemanPhone,jdbcType=VARCHAR},
+      real_name = #{realName,jdbcType=VARCHAR},
+      idcard = #{idcard,jdbcType=VARCHAR},
+      total_shipping_num = #{totalShippingNum,jdbcType=INTEGER},
+      ontime_shipping_num = #{ontimeShippingNum,jdbcType=INTEGER},
+      score = #{score,jdbcType=DOUBLE},
+      ontime_rate = #{ontimeRate,jdbcType=DOUBLE},
+      createtime = #{createtime,jdbcType=DATE}
+    where horseman_id = #{horsemanId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,462 @@
+<div>
+    <!--菜单界面导航栏-->
+    <div id="shop-menu-guider">
+        <!--导航栏标题-->
+        <span>
+            <button id="shop-menu-guider-title" type="button" class="btn btn-success btn-lg"
+                    onclick="refreshPage()">总菜单</button>
+        </span>
+        <!--导航栏内容-->
+        <div id="shop-menu-guider-body" class="btn-group shop-father-menu-modify shop-child-menu-modify">
+
+        </div>
+    </div>
+    <hr>
+    <!--选中的总菜单展示卡片-->
+    <div id="shop-menu-dish-main">
+        <div class="box">
+            <!--总菜单额外信息展示栏-->
+            <div class="box-header">
+                <div class="callout callout-info shop-father-menu-info" style="margin-bottom: 0!important;">
+                    <!--总菜单名称-->
+                    <h3 id="father-menu-name1" class="shop-father-menu-modify" style="display: inline"></h3>
+                    <h3 class="shop-father-menu-modify" style="display: none"><input
+                            id="father-menu-name2" class="form-control"></h3>
+                    <!--总菜单描述-->
+                    <span id="father-menu-desc1" class="shop-father-menu-modify"></span>
+                    <input id="father-menu-desc2" class="shop-father-menu-modify form-control" style="display: none">
+                    <!--总菜单创建日期-->
+                    <span id="father-menu-time" class="pull-right"></span>
+                    <div class="btn-group shop-father-menu-modify" style="display: none">
+                        <button id="shop-father-menu-modify-commit" type="button" class="btn btn-warning"
+                                onclick="doCommitFatherMenuModify()">
+                            <i class="fa fa-fw fa-check"></i>提交
+                        </button>
+                        <button type="button" class="btn btn-warning"
+                                onclick="refreshPage()">
+                            <i class="fa fa-fw fa-close"></i>取消
+                        </button>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+            <div class="box-header with-border">
+                <h3 class="box-title">子菜单列表</h3>
+                <div class="box-tools pull-right">
+                    <div class="btn-group shop-father-menu-modify shop-child-menu-modify">
+                        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-wrench"></i>选项
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="javascript:void (0)" onclick="doDeleteFatherMenu()">删除总菜单</a></li>
+                            <li><a href="javascript:void (0)" onclick="doAddFatherMenu()">添加总菜单</a></li>
+                            <li><a href="javascript:void (0)" onclick="doModifyFatherMenu()">修改总菜单</a></li>
+                            <li><a href="javascript:void (0)" onclick="doActiveFatherMenu()">激活总菜单</a></li>
+                            <li class="divider"></li>
+                            <li><a href="javascript:void (0)" onclick="shopChildMenuModify()">修改子菜单</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <!--子菜单列表-->
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="child-menu-list">
+
+                        </div>
+                        <div id="child-menu-add">
+                            <div class="col-lg-3 col-xs-6 shop-child-menu-modify" style="display: none">
+                                <div class="small-box bg-red">
+                                    <div class="inner" onclick="doAddChildMenu()">
+                                        <h3>添加子菜单</h3>
+                                        <p>点击此卡片上方添加，点击下方提交修改</p>
+                                    </div>
+                                    <div class="icon">
+                                        <i class="fa fa-fw fa-plus"></i>
+                                    </div>
+                                    <span class="small-box-footer">
+                                       <a href="javascript:void (0)" style="color: white"
+                                          onclick="doCommitChildMenuModify()">提交修改<i
+                                               class="fa fa-fw fa-check"></i></a>
+                                       <a href="javascript:void (0)" style="color: white"
+                                          onclick="refreshPage()">取消修改<i
+                                               class="fa fa-fw fa-close"></i></a>
+                                   </span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.chart-responsive -->
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- ./box-body -->
+
+            <!-- /.box-footer -->
+        </div>
+    </div>
+</div>
+
+<script>
+    /**
+     * 主函数
+     */
+    $(function () {
+        $('#shop-menu-dish-main').data("isModify", false);
+        //获取总菜单列表信息
+        doGetFatherMenuList();
+    });
+
+    /**
+     * 从服务器获取总菜单列表
+     */
+    function doGetFatherMenuList() {
+        $.getJSON("dishAndMenu/doGetFatherMenus.do", "shopId=" + logShopId, function (result) {
+            console.log(result);
+            //渲染总菜单列表
+            doRenderGuiderWithFatherMenuList(result.data);
+        });
+    }
+
+    /**
+     * 渲染总菜单导航栏
+     */
+    function doRenderGuiderWithFatherMenuList(data) {
+        let fatherMenuActive = 0;
+        console.log(data);
+        //遍历总菜单列表
+        let $guider = $("#shop-menu-guider-body");
+        $guider.html('');
+        for (let i = 0; i < data.length; i++) {
+            let state = '';
+            let btn_class = 'btn-info';
+            // 判断菜单激活状态
+            if (data[i].state === 1) {
+                state = '（使用中）';
+                btn_class = 'btn-warning';
+                fatherMenuActive = i;
+            }
+            //总菜单列表显示在菜单导航中
+            $guider.append(`
+                    <button type="button" class="btn ${btn_class} btn-lg" onclick="doGetChildMenuList(${data[i].fatherMenuId})">${data[i].fatherMenuName + state}</button>
+            `)
+        }
+        //默认渲染激活的总菜单项
+        doGetChildMenuList(data[fatherMenuActive].fatherMenuId);
+
+    }
+
+    /**
+     * 从服务器获取子菜单列表
+     */
+    function doGetChildMenuList(id) {
+        let $guider = $('#shop-menu-guider-title');
+        $guider.removeData();
+        $guider.data('currentFatherMenuList', id);
+        $.getJSON("dishAndMenu/doFindFatherMenuById.do", "fatherMenuId=" + id, function (result) {
+            doRenderChildMenuList(result)
+        })
+    }
+
+    /**
+     * 渲染子菜单列表
+     */
+    function doRenderChildMenuList(result) {
+        let $childMenuList = $('#child-menu-list');
+        $childMenuList.html("");
+        console.log(result);
+        let father = result.data.fatherMenu;
+        $('#father-menu-name1').html(father.fatherMenuName);
+        $('#father-menu-name2').val(father.fatherMenuName);
+        $('#father-menu-desc1').html(father.desc);
+        $('#father-menu-desc2').val(father.desc);
+        $('#father-menu-time').html('创建时间：' + new Date(father.createtime).toLocaleDateString());
+        let child = result.data.childMenuList;
+        for (let i = 0; i < child.length; i++) {
+            renderChildMenu($childMenuList, i, child);
+            let id = 'child-menu-' + child[i].childMenuName;
+            $("#" + id).click({child: child[i]}, doGetChildMenuUI);
+        }
+    }
+
+    /**
+     * 渲染单个子菜单项
+     */
+    function renderChildMenu($childMenuList, i, child) {
+        $childMenuList.append(
+            `<div class="col-lg-3 col-xs-6 shop-child-menu-card">
+                    <div class="small-box bg-aqua" id="child-menu-${child[i].childMenuName}">
+                        <div class="inner">
+                                <h3 class="shop-child-menu-modify child-menu-name1" id="${child[i].childMenuId}">${child[i].childMenuName}</h3>
+                                <h3 class="shop-child-menu-modify" style="display:none">
+                                <input type="text" class="form-control child-menu-name2"" value="${child[i].childMenuName}">
+                                </h3>
+                                <p>含有菜品数量：${child[i].dishList.length}个</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-shopping-cart"></i>
+                        </div>
+                            <a href="javascript:void (0)" onclick="doDeleteChildMenu(${child[i].childMenuId})" class="small-box-footer shop-child-menu-modify" style="display:none">
+                                 删除<i class="fa fa-fw fa-trash"></i></a>
+                    </div>
+                </div>`
+        );
+    }
+
+    /**
+     * 加载子菜单及其菜品列表
+     */
+    function doGetChildMenuUI(e) {
+        let $menu = $('#shop-menu-dish-main');
+        if ($menu.data("isModify")) {
+            return;
+        }
+        $menu.html('');
+        $menu.load('dishAndMenu/doGetChildMenuUI.do');
+        $menu.removeData();
+        $menu.data('child', e.data.child)
+    }
+
+    /**
+     * 修改子菜单列表
+     */
+    function shopChildMenuModify() {
+        $('.shop-child-menu-modify').toggle();
+        let $isModify = $('#shop-menu-dish-main');
+        $isModify.data("isModify", !$isModify.data("isModify"))
+    }
+
+    /**
+     * 删除子菜单
+     */
+    function doDeleteChildMenu(childId) {
+        if (!confirm('确认删除此子菜单？')) {
+            return
+        }
+        console.log(childId);
+        $.post('dishAndMenu/doDeleteChildMenu.do', {childMenuId: childId}, function (result) {
+            if(result.state==1){
+            	confirm(result.message);
+            	shopChildMenuModify();
+            }else{
+            	confirm(result.message);
+            }
+        });
+        refreshPage();
+    }
+
+    /**
+     * 添加子菜单
+     */
+    function doAddChildMenu() {
+        let childMenu = [{
+            "childMenuId": 0,
+            "fatherMenuIdF": 0,
+            "childMenuName": '未命名',
+            "childMenuDesc": null,
+            "createtime": 0,
+            "dishList": [],
+            "shopIdF": 0
+        }];
+        shopChildMenuModify();
+        renderChildMenu($('#child-menu-list'), 0, childMenu);
+        shopChildMenuModify();
+    }
+
+    /**
+     * 提交修改子菜单列表
+     */
+    function doCommitChildMenuModify() {
+        let $shop = $('div.shop-child-menu-card');
+        let $find1 = $shop.find('.child-menu-name1');
+        let $find2 = $shop.find('.child-menu-name2');
+        let id = [];
+        let name1 = [];
+        let name2 = [];
+        $find1.each(function (index, obj) {
+            id.push(obj.id);
+            name1.push($(obj).text())
+        });
+        $find2.each(function (index, obj) {
+            name2.push($(obj).val())
+        });
+        console.log(id);
+        console.log(name1);
+        console.log(name2);
+        doModifyOrAddChildMenu(name1, name2, id);
+    }
+
+    /**
+     * 提交修改子菜单列表
+     */
+    function doModifyOrAddChildMenu(name1, name2, id) {
+        if (!confirm('确认对子菜单信息的修改？')) {
+            return
+        }
+        let fatherMenuId = $('#shop-menu-guider-title').data('currentFatherMenuList');
+        let modifyList = [];
+        let addList = [];
+        for (let i = 0; i < name1.length; i++) {
+            if (name1[i] !== name2[i] && id[i] !== '0') {
+                console.log(name1[i]);
+                console.log(id[i]);
+                let obj = {childMenuId: id[i], childMenuName: name2[i]};
+                modifyList.push(obj)
+            }
+            if (id[i] === '0') {
+                let obj = {
+                    childMenuId: id[i],
+                    childMenuName: name2[i],
+                    fatherMenuIdF: parseInt(fatherMenuId),
+                    shopIdF: parseInt(logShopId)
+                };
+                addList.push(obj)
+               
+            }
+        }
+        console.log(modifyList);
+        $.post('dishAndMenu/doModifyChildMenu.do', {json: JSON.stringify(modifyList)}, function (result) {
+        });
+        $.post('dishAndMenu/doAddChildMenu.do', {json: JSON.stringify(addList)}, function (result) {
+        	if(result.state==1){
+        		alert("操作成功");
+                refreshPage();
+        	}else{
+        		alert(result.message);
+        	}
+        });
+    }
+
+    /**
+     * 修改总菜单
+     */
+    function doModifyFatherMenu() {
+        let $commit = $('#shop-father-menu-modify-commit');
+        $commit.removeData();
+        $commit.data('action', 'modify');
+        $('.shop-father-menu-modify').toggle();
+        let $isModify = $('#shop-menu-dish-main');
+        $isModify.data("isModify", !$isModify.data("isModify"))
+    }
+
+    /**
+     * 提交总菜单修改操作
+     */
+    function doCommitFatherMenuModify() {
+
+        let action = $('#shop-father-menu-modify-commit').data('action');
+        console.log(action);
+
+        if (action == 'add') {
+            if (!confirm('确认添加总菜单？')) {
+                return
+            }
+            let name2 = $('#father-menu-name2').val();
+            let desc2 = $('#father-menu-desc2').val();
+
+            let obj = {
+                shopIdF: parseInt(logShopId),
+                fatherMenuName: name2,
+                desc: desc2
+            };
+            $.post('dishAndMenu/doAddFatherMenu.do', obj, function (result) {
+                console.log(result.message)
+                refreshPage();
+
+            });
+        } else {
+            if (!confirm('确认对总菜单信息的修改？')) {
+                return
+            }
+            let fatherMenuId = $('#shop-menu-guider-title').data('currentFatherMenuList');
+            let name1 = $('#father-menu-name1').text();
+            let name2 = $('#father-menu-name2').val();
+            let desc1 = $('#father-menu-desc1').text();
+            let desc2 = $('#father-menu-desc2').val();
+            console.log(name1 + name2 + desc1 + desc2);
+            if (name1 == name2 && desc1 == desc2) {
+                return
+            }
+            let obj = {
+            	fatherMenuId: fatherMenuId,
+                fatherMenuName: name2,
+                desc: desc2
+            };
+            $.post('dishAndMenu/doModifyFatherMenu.do', obj, function (result) {    	
+            	if(result.state==1){
+                    alert(result.message);
+                    refreshPage();
+                	}else{
+                		 alert(result.message);
+                	}
+            });
+        }
+    }
+
+    /**
+     * 添加总菜单
+     */
+    function doAddFatherMenu() {
+        doModifyFatherMenu();
+        let $commit = $('#shop-father-menu-modify-commit');
+        $commit.removeData();
+        $commit.data('action', 'add');
+        let $name2 = $('#father-menu-name2');
+        $name2.val('');
+        let $desc2 = $('#father-menu-desc2');
+        $desc2.val('');
+    }
+
+    /**
+     * 删除总菜单
+     */
+    function doDeleteFatherMenu() {
+        if (!confirm('确认删除当前总菜单？')) {
+            return
+        }
+        let fatherMenuId = $('#shop-menu-guider-title').data('currentFatherMenuList');
+        let obj = {
+            fatherMenuId: fatherMenuId
+        };
+        $.ajax({url:'dishAndMenu/doDeleteFatherMenu.do', data:obj, success:function (result) {
+        	if(result.state==1){
+            alert(result.message);
+            refreshPage();
+        	}else{
+        		 alert(result.message);
+        	}
+        }});
+    }
+
+    /**
+     * 激活总菜单
+     */
+    function doActiveFatherMenu() {
+        if (!confirm('确认激活当前菜单？')) {
+            return
+        }
+        let fatherMenuId = $('#shop-menu-guider-title').data('currentFatherMenuList');
+        let obj = {
+            shopIdF: parseInt(logShopId),
+            fatherMenuId: fatherMenuId
+        };
+        $.post('dishAndMenu/doActiveFatherMenu.do', obj, function (result) {
+            console.log(result.message)
+            refreshPage();
+        });
+    }
+
+    /**
+     * 刷新页码
+     */
+    function refreshPage() {
+        $('#mainContentId').load('dishAndMenu/doGetFatherMenuUI.do')
+    }
+
+</script>
+
+<!--
+
+-->
