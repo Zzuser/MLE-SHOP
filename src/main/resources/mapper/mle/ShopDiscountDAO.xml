@@ -14,12 +14,66 @@
     <sql id="Base_Column_List">
         discount_id, discount_name, shop_id_f, `desc`, `percent`, direct, min_price, createtime
     </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    
+    <!-- 查询店铺对应打折信息 -->
+	<select id="selectDiscountByShopId" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from shop_discount
+		where shop_id_f = #{shopId,jdbcType=BIGINT}
+	</select>
+	<!-- 根据打折项id值删除打折信息 -->
+	<delete id="deleteDiscountsByPrimaryKey">
+		delete
+		from shop_discount
+		where discount_id in
+		<foreach collection="discountIds" open="(" close=")"
+			separator="," item="discountId">
+			#{discountId,jdbcType=BIGINT}
+		</foreach>
+	</delete>
+	<!-- 负责将折扣信息写入到数据库 -->
+	<insert id="insertDiscount" parameterType="com.tedu.mle.shopend.entity.ShopDiscount">
+		insert into shop_discount (discount_id,
+			discount_name,
+			shop_id_f,
+			`desc`,
+			`percent`,
+			direct,
+			min_price,
+			createtime)
+		values (null,
+			#{discountName,jdbcType=VARCHAR},
+			#{shopIdF,jdbcType=BIGINT},
+			#{desc,jdbcType=VARCHAR},
+			#{percent,jdbcType=DOUBLE},
+			#{direct,jdbcType=DOUBLE},
+			#{minPrice,jdbcType=DOUBLE},
+			now())
+	</insert>
+	<!-- 查询单条打折信息 -->
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from shop_discount
         where discount_id = #{discountId,jdbcType=BIGINT}
     </select>
+  	<!-- 修改折扣信息 -->
+    <update id="updateDiscountByPrimaryKey" parameterType="com.tedu.mle.shopend.entity.ShopDiscount">
+		update shop_discount
+		set discount_name = #{discountName,jdbcType=VARCHAR},
+		`desc` = #{desc,jdbcType=VARCHAR},
+		`percent` = #{percent,jdbcType=DOUBLE},
+		direct = #{direct,jdbcType=DOUBLE},
+		min_price = #{minPrice,jdbcType=DOUBLE},
+		createtime = now()
+		where discount_id = #{discountId,jdbcType=BIGINT}
+	</update>
+    
+    
+    
+    
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete
         from shop_discount

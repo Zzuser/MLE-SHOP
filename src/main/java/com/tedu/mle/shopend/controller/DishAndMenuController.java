@@ -34,16 +34,19 @@ public class DishAndMenuController {
     private ChildMenuService childMenuService;
     @Autowired
     private DishService dishService;
+
     /**
      * 根据子菜单的id显示菜品数据
+     *
      * @param ChildMenuId 子菜单的id
      * @return 返回菜单信息
      */
     @RequestMapping("dojumpObject")
-    public String dojumpObject(){
-		return "/dish/menu_edit";
-    	
+    public String dojumpObject() {
+        return "/dish/menu_edit";
+
     }
+
     /**
      * 返回主菜单页面
      *
@@ -63,35 +66,41 @@ public class DishAndMenuController {
     public String doGetChildMenuUI() {
         return "dish/child_menu";
     }
+
     @RequestMapping("doDeleteDish")
     @ResponseBody
-    public JsonResult doDeleteDish(Long dishId){
-    	dishService.doDeleteDish(dishId);
-    	return new JsonResult("删除成功");
+    public JsonResult doDeleteDish(Long dishId) {
+        dishService.doDeleteDish(dishId);
+        return new JsonResult("删除成功");
     }
+
     /**
      * 修改根据菜品id修改菜品
+     *
      * @param dish 修改的菜品对象
      * @return 返回修改的数据
      */
     @RequestMapping("doUpdateDishObjects")
     @ResponseBody
-    public JsonResult doUpdateDishObjects(Dish dish){
-    	dishService.UpdateDish(dish);
-    	return new JsonResult("菜品修改成功");
+    public JsonResult doUpdateDishObjects(Dish dish) {
+        dishService.UpdateDish(dish);
+        return new JsonResult("菜品修改成功");
     }
+
     /**
      * 向菜单中添加菜品
+     *
      * @param dish 菜品信息
      * @return 添加的菜品信息
      */
     @RequestMapping("doAddDishObjects")
     @ResponseBody
-    public JsonResult doAddDishObjects(Dish dish){
-    	dishService.InsertIntoDish(dish);
-		return new JsonResult("菜品添加成功");
-    	
+    public JsonResult doAddDishObjects(Dish dish) {
+        dishService.InsertIntoDish(dish);
+        return new JsonResult("菜品添加成功");
+
     }
+
     /**
      * 根据商铺id查询其总菜单列表
      *
@@ -128,7 +137,7 @@ public class DishAndMenuController {
     public JsonResult doFindFatherMenuById(Long fatherMenuId) {
         return new JsonResult(shopService.findFatherMenuById(fatherMenuId));
     }
-    
+
     /**
      * 修改子菜单信息
      *
@@ -153,21 +162,23 @@ public class DishAndMenuController {
     @ResponseBody
     public JsonResult doAddChildMenu(String json) {
         List<ChildMenu> childMenus = JsonUtil.readListValue(json, ChildMenu.class);
-        childMenuService.InsertIntoChildMenu(childMenus); 
-     
+        childMenuService.InsertIntoChildMenu(childMenus);
+
         return new JsonResult("添加成功");
     }
 
     /**
      * 删除子菜单
      *
-     * @param childMenuId 要删除的子菜单id
+     * @param json 要删除的子菜单id
      * @return 删除结果
      */
     @RequestMapping("doDeleteChildMenu")
     @ResponseBody
-    public JsonResult doDeleteChildMenu(Long childMenuId) {
-    	childMenuService.deleteByPrimaryKey(childMenuId);
+    public JsonResult doDeleteChildMenu(String json) {
+        List<Long> ids = JsonUtil.readListValue(json, Long.class);
+        System.out.println(ids);
+        childMenuService.deleteByPrimaryKey(ids);
         return new JsonResult("删除成功");
     }
 
@@ -180,8 +191,8 @@ public class DishAndMenuController {
      */
     @RequestMapping("doModifyFatherMenu")
     @ResponseBody
-    public JsonResult doModifyFatherMenu(Long fatherMenuId,String fatherMenuName, String desc) {
-    	fatherMenuService.updateByPrimaryKeySelective(fatherMenuId,fatherMenuName,desc);
+    public JsonResult doModifyFatherMenu(Long fatherMenuId, String fatherMenuName, String desc) {
+        fatherMenuService.updateByPrimaryKeySelective(fatherMenuId, fatherMenuName, desc);
         return new JsonResult("修改成功");
     }
 
@@ -196,7 +207,7 @@ public class DishAndMenuController {
     @RequestMapping("doAddFatherMenu")
     @ResponseBody
     public JsonResult doAddFatherMenu(Long shopIdF, String fatherMenuName, String desc) {
-    	fatherMenuService.insertChildMenuObject(shopIdF, fatherMenuName, desc);
+        fatherMenuService.insertChildMenuObject(shopIdF, fatherMenuName, desc);
         return new JsonResult("添加成功");
     }
 
@@ -209,7 +220,7 @@ public class DishAndMenuController {
     @RequestMapping("doDeleteFatherMenu")
     @ResponseBody
     public JsonResult doDeleteFatherMenu(Integer fatherMenuId) {
-    	fatherMenuService.deleteByMenuId(fatherMenuId);
+        fatherMenuService.deleteByMenuId(fatherMenuId);
         return new JsonResult("删除成功");
     }
 

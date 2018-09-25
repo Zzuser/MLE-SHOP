@@ -27,12 +27,93 @@
         proclamation, profile, shop_hours, `state`, main_score, createtime, distribution_score,
         package_score, taste_score, min_price, shipping_fee
     </sql>
+    
+     <select id="selectByPhoneNum" resultType="com.tedu.mle.shopend.entity.Shop">
+    select
+    <include refid="Base_Column_List"/>
+    from shop
+    <where>
+     phone=#{phone}
+    </where>
+    </select>
+    
+    <update id="updateShopState" parameterType="com.tedu.mle.shopend.entity.Shop">
+    	update shop
+    	set `state` = #{state,jdbcType=BIT}
+    	where shop_id = #{shopId,jdbcType=BIGINT}
+    </update>
+    <!-- rrp -->
+    <update id="updateShopByPrimaryKey" parameterType="com.tedu.mle.shopend.entity.Shop">
+        update shop
+        <set>
+            <if test="shopName != null">
+                shop_name = #{shopName,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="managerName != null">
+                manager_name = #{managerName,jdbcType=VARCHAR},
+            </if>
+            <if test="managerIdcard != null">
+                manager_idcard = #{managerIdcard,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                `password` = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="salt != null">
+                salt = #{salt,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="proclamation != null">
+                proclamation = #{proclamation,jdbcType=VARCHAR},
+            </if>
+            <if test="profile != null">
+                profile = #{profile,jdbcType=VARCHAR},
+            </if>
+            <if test="shopHours != null">
+                shop_hours = #{shopHours,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                `state` = #{state,jdbcType=BIT},
+            </if>
+            <if test="mainScore != null">
+                main_score = #{mainScore,jdbcType=DOUBLE},
+            </if>
+            <if test="createtime != null">
+                createtime = #{createtime,jdbcType=DATE},
+            </if>
+            <if test="distributionScore != null">
+                distribution_score = #{distributionScore,jdbcType=DOUBLE},
+            </if>
+            <if test="packageScore != null">
+                package_score = #{packageScore,jdbcType=DOUBLE},
+            </if>
+            <if test="tasteScore != null">
+                taste_score = #{tasteScore,jdbcType=DOUBLE},
+            </if>
+            <if test="minPrice != null">
+                min_price = #{minPrice,jdbcType=DOUBLE},
+            </if>
+            <if test="shippingFee != null">
+                shipping_fee = #{shippingFee,jdbcType=DOUBLE},
+            </if>
+        </set>
+        where shop_id = #{shopId,jdbcType=BIGINT}
+    </update>
+	<!-- rrp     -->
+	<!-- 基于店铺账户id查询店铺信息 -->
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from shop
         where shop_id = #{shopId,jdbcType=BIGINT}
     </select>
+    
+    
+    
     <select id="selectByPhone" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>

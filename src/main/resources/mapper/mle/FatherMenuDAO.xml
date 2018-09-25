@@ -46,7 +46,7 @@
                 #{fatherMenuName,jdbcType=VARCHAR},
                 #{desc,jdbcType=VARCHAR},
                 #{state,jdbcType=TINYINT},
-                #{createtime,jdbcType=DATE})
+                now())
     </insert>
 
     <update id="updateByPrimaryKeySelective" parameterType="com.tedu.mle.shopend.entity.FatherMenu">

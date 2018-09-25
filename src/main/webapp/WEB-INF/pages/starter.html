@@ -62,7 +62,7 @@ desired effect
     <header class="main-header">
 
         <!-- Logo -->
-        <a class="logo">
+        <a class="logo bg-navy">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>MLE-</b>SHOP-SYS</span>
             <!-- logo for regular state and mobile devices -->
@@ -70,7 +70,7 @@ desired effect
         </a>
 
         <!-- Header Navbar -->
-        <nav class="navbar navbar-static-top" role="navigation">
+        <nav class="navbar navbar-static-top bg-navy" role="navigation">
             <!-- Sidebar toggle button-->
             <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
                 <span class="sr-only">Toggle navigation</span>
@@ -263,12 +263,12 @@ desired effect
               </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a id="load-dept-id">组织管理</a></li>
-                        <li><a id="load-menu-id">菜单管理</a></li>
-                        <li><a id="load-role-id">角色管理</a></li>
-                        <li><a id="load-user-id">用户管理</a></li>
-                        <li><a id="load-log-id">日志管理</a></li>
-                        <li><a id="load-config-id">配置管理</a></li>
+                    	<!-- rrp -->
+                    	<li><a id="load-shopupdate-id">商铺信息设置</a></li>
+                        <li><a id="load-discount-id">商铺打折设置</a></li>
+                        
+                        
+
                     </ul>
                 </li>
             </ul>
@@ -411,6 +411,7 @@ desired effect
 <script src="dist/js/adminlte.min.js"></script>
 <script type="text/javascript">
     let logShopId = 1;
+    let childMenuCount = 0;
     $(function () {
         $.getJSON("index.do", '', function (result) {
             console.log(result);
@@ -421,6 +422,13 @@ desired effect
         // 侧边按钮绑定
         doLoadUI("load-workbench-id", "workbench/doGetWorkbenchUI.do", '工作空间');
         doLoadUI("load-dish-id", "dishAndMenu/doGetFatherMenuUI.do", '商品管理');
+        
+        //rrp
+        //商铺信息设置
+        doLoadUI("load-shopupdate-id", "shop/doShopUpdateUI.do", '商铺信息设置');
+        //商铺打折信息设置
+        doLoadUI("load-discount-id", "disc/doDiscountListUI.do", '商铺打折设置');
+        
 
         $("#mainContentId").load("workbench/doGetWorkbenchUI.do", function () {
             $('#page-name').html('工作空间');

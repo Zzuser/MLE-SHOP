@@ -1,101 +1,125 @@
 <div class="row">
-	<div class="col-xs-12">
-		<div class="box">
-			<div class="box-header">
-				<h3 id="child-menu-title" class="box-title">子菜单</h3>
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 id="child-menu-title" class="box-title">子菜单</h3>
 
-				<div class="box-tools">
-					<div class="input-group input-group-sm" style="width: 350px;">
-						<input type="text" name="table_search" id="searchNameId"
-							class="form-control pull-right" placeholder="用户名">
+                <div class="box-tools">
+                    <div class="input-group input-group-sm" style="width: 100px;">    
+                        <div class="input-group-btn">
+                           
+                            <button type="button" class="btn btn-danger delete"><i class="fa fa-trash-o"></i></button>
+                            <button type="button" class="btn btn-success btn-update">修改</button>
+                            <button type="button" class="btn btn-primary btn-add">添加</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox" id="checkAll">全选</th>
+                        <th>菜品id</th>
+                        <th>菜品名称</th>
+                        <th>菜品图片</th>
+                        <th>创建日期</th>
+                        <th>评分</th>
+                        <th>菜品描述</th>
+                        <th>菜品折扣</th>
+                        <th>菜品状态</th>
+                        <th>菜品价格</th>
+                        <th>菜品库存</th>
+                        <th>已售数量</th>
+                    </tr>
+                    </thead>
+                    <tbody id="shop-dish-list"></tbody>
+                </table>
+            </div>
+            <div id="pageId" class="box-footer clearfix"></div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
 
-						<div class="input-group-btn">
-							<button type="button" class="btn btn-default btn-search">
-								<i class="fa fa-search"></i>
-							</button>
-							<button type="button" class="btn btn-default delete">删除</button>
-							<button type="button" class="btn btn-default btn-update">修改</button>
-							<button type="button" class="btn btn-default btn-add">添加</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- /.box-header -->
-			<div class="box-body table-responsive no-padding">
-				<table class="table table-hover">
-					<thead>
-						<tr>
-							<th><input type="checkbox">全选</th>
-							<th>菜品id</th>
-							<th>菜品名称</th>
-							<th>菜品图片</th>
-							<th>创建日期</th>
-							<th>评分</th>
-							<th>菜品描述</th>
-							<th>菜品折扣</th>
-							<th>菜品状态</th>
-							<th>菜品价格</th>
-							<th>菜品库存</th>
-							<th>已售数量</th>
-						</tr>
-					</thead>
-					<tbody id="shop-dish-list"></tbody>
-				</table>
-			</div>
-			<div id="pageId" class="box-footer clearfix"></div>
-			<!-- /.box-body -->
-		</div>
-		<!-- /.box -->
-	</div>
 </div>
 <script type="text/javascript">
     $(function () {
         doRenderGuiderWithChildMenu();
-        $(".input-group-btn").on("click",".btn-add",doAddOrUpDateDish).on("click",".btn-update",doAddOrUpDateDish)
-        .on("click",".delete",doDeleteChild)
+        $(".input-group-btn").on("click", ".btn-add", doAddOrUpDateDish).on("click", ".btn-update", doAddOrUpDateDish)
+            .on("click", ".delete", doDeleteChild)
+       $("thead").on("change","#checkAll",doChangeTBodyCheckBoxState);
+        $("#shop-dish-list").on("change",".cBox",doChangeTHeadCheckBoxState);
     });
-
+       function doChangeTHeadCheckBoxState(){
+    	//获取所有的Tbody中checkbax对象“与的结果
+    	var flag=true;
+    	$("#shop-dish-list input[type='checkbox']").each(function(){
+    		flag=flag&&$(this).prop("checked");
+    	})
+       //将tbody中的checkbox中的状态赋予thead中chaeckbox对象
+    	$("#checkAll").prop("checked",flag);
+    }
+    //更新tbody中的checkBox的状态
+    function doChangeTBodyCheckBoxState(){
+    	//1.获取当前点击对象的状态
+    	var state=$(this).prop("checked");
+    	//2.将此状态应用到checkbox对象上
+    	$("#shop-dish-list input[type='checkbox']").each(function(){ 		
+    		$(this).prop("checked",state);
+    	});
+    }
     /**
      * 渲染子菜单导航栏
      */
-     function doDeleteChild(){
-    	 var rowData=$("tbody input[type='checkbox']:checked").parents("tr").data("rowData");
-    	 var url="dishAndMenu/doDeleteDish.do";
-    	 var dishId=rowData.dishId;
-    	 var params={"dishId":dishId};
-    	 console.log(params);
-    	 $.post(url,params,function(result){
-    		 if(result.state==1){
-    			 alert(result.message);
-    			  $("#mainContentId").removeData();
-    			  var url="dishAndMenu/doGetFatherMenuUI.do";
-    			  $("#mainContentId").load(url);
-    		 } else{
-    			 alert(result.message);
-    		 }  		 
-    	 })    	
-    }   
-     //修改和添加菜品页面
-     function  doAddOrUpDateDish(){
-    	 let data = $('#shop-menu-dish-main').data('child');
-    	 console.log(data);
-    	var AllData= $("#mainContentId").data("AllData",data);
-    	 var title;
- 	    if($(this).hasClass("btn-add")){
- 	    	title="添加菜品信息";
- 	    }else{
- 	    	//设置标题
- 	    	title="修改菜品信息"
- 	    	var rowData=$("tbody input[type='checkbox']:checked").parents("tr").data("rowData")
- 		    	//2.从新绑定数据到#mainContent
- 		    	console.log(rowData);
- 		   	$("#mainContentId").data("rowData",rowData);
- 	    }
- 		var url="dishAndMenu/dojumpObject.do";
- 	 $("#mainContentId").load(url,function(){
- 		$(".box-title").html(title);
- 	 })
-     
+    function doDeleteChild() {
+        var rowData = $("tbody input[type='checkbox']:checked").parents("tr").data("rowData");
+        if(!rowData){
+     	   alert("请选中")
+     	   }else{
+        var url = "dishAndMenu/doDeleteDish.do";
+        var dishId = rowData.dishId;
+        var params = {"dishId": dishId};     
+        $.post(url, params, function (result) {
+            if (result.state == 1) {
+                alert(result.message);
+                $("#mainContentId").removeData();
+                var url = "dishAndMenu/doGetFatherMenuUI.do";
+                $("#mainContentId").load(url);
+            } else {
+                alert(result.message);
+            }
+        })
+    }
+    }
+    //修改和添加菜品页面
+    function doAddOrUpDateDish() {
+        let data = $('#shop-menu-dish-main').data('child');
+        var AllData = $("#mainContentId").data("AllData", data);
+        var title;
+        if ($(this).hasClass("btn-add")) {
+            title = "添加菜品信息";
+            var url = "dishAndMenu/dojumpObject.do";
+            $("#mainContentId").load(url, function () {
+            $(".box-title").html(title);
+            })
+        }
+         else {
+            //设置标题
+            title = "修改菜品信息"
+            var rowData = $("tbody input[type='checkbox']:checked").parents("tr").data("rowData")
+            //2.从新绑定数据到#mainContent
+            if(!rowData){
+            	alert("请选中");
+            }else{       
+        $("#mainContentId").data("rowData", rowData);
+        var url = "dishAndMenu/dojumpObject.do";
+        $("#mainContentId").load(url, function () {
+            $(".box-title").html(title);
+        })
+    }
+    }
     }
     function doRenderGuiderWithChildMenu() {
         let data = $('#shop-menu-dish-main').data('child');
@@ -122,7 +146,7 @@
             //2.1 构建tr对象
             var tr = $("<tr></tr>");
             //2.2 构建tds对象
-            tr.data("rowData",records[i]);
+            tr.data("rowData", records[i]);
             var tds = doCreateTds(records[i]);
             //2.3 将tds追加到tr中
             tr.append(tds);
@@ -140,7 +164,7 @@
             "</td>" +
             "<td>" + row.dishId + "</td>" +//菜品id
             "<td>" + row.dishName + "</td>" +//菜品名称
-            "<td>" + row.image + "</td>" +//菜品图片
+            "<td><img src=\"http:" + row.image + "\" style='width: 70px;height: 70px'></td>" +//菜品图片
             "<td>" + new Date(row.createtime).toLocaleDateString() + "</td>" +//创建日期
             "<td>" + row.grade + "</td>" +//评分
             "<td>" + row.dishDesc + "</td>" +//菜品描述

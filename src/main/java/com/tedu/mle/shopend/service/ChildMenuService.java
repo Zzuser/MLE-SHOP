@@ -19,7 +19,7 @@ public interface ChildMenuService {
 	  * @param childMenuId 子菜单id
 	  * @return 返回删除的数量
 	  */
-	 int deleteByPrimaryKey(Long childMenuId);
+	 int deleteByPrimaryKey(List<Long> childMenuId);
 	 /**
 	  * 修改菜单信息
 	  * @param childMenus 菜单的信息

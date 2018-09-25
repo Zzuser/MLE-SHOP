@@ -26,37 +26,40 @@
 
     <!-- Google Font -->
 </head>
-<body class="hold-transition login-page">
+<style>
+    .my-login {
+        padding: 30px;
+        background: rgba(255, 255, 255, 0.6);
+    }
+</style>
+<body style="background: url('./dist/img/loginbg.jpg')">
 <div class="login-box">
     <div class="login-logo">
-        <a href="#"><b>JT-</b>SYS</a>
+        <a href="#" style="color: white"><b>么了饿商铺管理系统</b></a>
     </div>
     <!-- /.login-logo -->
-    <div class="login-box-body">
-        <p class="login-box-msg">Sign in to start your session</p>
-
+    <div class="my-login">
+        <p class="login-box-msg"></p>
         <form method="post">
             <div class="form-group has-feedback">
-                <input type="text" id="usernameId" name="phone" class="form-control" placeholder="phone">
-                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                <input type="text" id="usernameId" name="phone" class="form-control" placeholder="手机号码">
+                <span class="glyphicon glyphicon-phone form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input type="password" id="passwordId" name="password" class="form-control" placeholder="Password">
+                <input type="password" id="passwordId" name="password" class="form-control" placeholder="密码">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
-
-
             <div class="row">
                 <div class="col-xs-8">
-                    <div class="checkbox icheck">
+                    <div class="checkbox">
                         <label>
-                            <input type="checkbox"> Remember Me
+                            <input type="checkbox"> 记住我<a href="/reg.do" style="margin-left: 70px">注册</a>
                         </label>
                     </div>
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <button type="button" class="btn btn-primary btn-block btn-flat btn-login">Sign In</button>
+                    <button type="button" class="btn btn-primary btn-block btn-flat btn-login">登录</button>
                 </div>
                 <!-- /.col -->
             </div>
@@ -97,6 +100,10 @@
             password: $("#passwordId").val()
         }
         var url = "doLogin.do";
+        if (params.phone == '' || params.password == '') {
+            alert("参数不能为空");
+            return;
+        }
         $.post(url, params, function (result) {
             if (result.state == 1) {
                 //跳转到indexUI对应的页面

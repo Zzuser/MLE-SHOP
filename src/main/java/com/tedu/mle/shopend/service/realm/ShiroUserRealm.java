@@ -16,10 +16,13 @@ import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.logging.Logger;
+
 @Service
 public class ShiroUserRealm extends AuthorizingRealm {
     @Autowired
     ShopDAO shopDAO;
+    private static Logger logger = Logger.getLogger("ShiroUserRealm.class");
 
     /**
      * 指定加密算法和加密次数
@@ -58,9 +61,9 @@ public class ShiroUserRealm extends AuthorizingRealm {
         //2.基于用户名获取用户
         Shop shop = shopDAO.selectByPhone(phone);
         //3.对用户信息进行验证
-        System.out.println(shop.getShopName());
-        System.out.println(shop.getPassword());
-        System.out.println(shop.getSalt());
+        logger.info("phone:"+shop.getShopName());
+        logger.info("password:"+shop.getPassword());
+        logger.info("salt:"+shop.getSalt());
         //3.1验证是否为空
         if (shop == null) {
             throw new AuthenticationException("用户不存在");

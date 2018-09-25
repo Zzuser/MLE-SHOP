@@ -25,6 +25,7 @@ public class IndexController {
 
     @RequestMapping("indexUI")
     public String indexUI(String user, HttpSession session) {
+    	System.out.println(user);
         Shop shop = shopService.selectByPhone(user);
         session.setAttribute("currentUser", shop);
         return "starter";
@@ -45,10 +46,15 @@ public class IndexController {
     @RequestMapping("doLogin")
     @ResponseBody
     public JsonResult doLogin(String phone, String password) {
-        System.out.println(phone + ":" + password);
         UsernamePasswordToken token = new UsernamePasswordToken(phone, password);
         Subject subject = SecurityUtils.getSubject();
         subject.login(token);
         return new JsonResult("登录成功");
+    }
+    
+
+    @RequestMapping("reg")
+    public String register(){
+    	return "register";
     }
 }

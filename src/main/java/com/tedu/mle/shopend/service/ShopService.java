@@ -13,7 +13,37 @@ import java.util.List;
  * @author zz
  */
 public interface ShopService {
+	
+	
+	/**商户注册插入
+	 * 
+	 * @param shop
+	 * @return
+	 */
+	int shanghuzhuce(Shop shop);
+	
+	/**
+	 * 修改商铺信息
+	 * @param record
+	 * @return
+	 * @author 巷末
+	 */
+	int updateShopByPrimaryKey(Shop record);
+	/**
+	 * 基于店铺账户id查询店铺信息
+	 * @param shopId
+	 * @return
+	 * @author 巷末
+	 */
+	Shop selectByPrimaryKey(Long shopId);
+	/**
+	 * 修改店铺营业状态
+	 * @param record
+	 * @return
+	 */
+	int updateShopState(Shop record);
 
+	
     /**
      * 根据手机号查询商店
      *

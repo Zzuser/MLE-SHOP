@@ -30,19 +30,16 @@ public class Shop implements Serializable {
     /**
      * 管理员名称
      */
-    @JsonIgnore
     private String managerName;
 
     /**
      * 管理员身份证号码
      */
-    @JsonIgnore
     private String managerIdcard;
 
     /**
      * 管理员密码
      */
-    @JsonIgnore
     private String password;
 
     /**

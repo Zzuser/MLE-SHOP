@@ -17,7 +17,7 @@
         <div class="box">
             <!--总菜单额外信息展示栏-->
             <div class="box-header">
-                <div class="callout callout-info shop-father-menu-info" style="margin-bottom: 0!important;">
+                <div class="callout callout-info bg-green shop-father-menu-info" style="margin-bottom: 0!important;">
                     <!--总菜单名称-->
                     <h3 id="father-menu-name1" class="shop-father-menu-modify" style="display: inline"></h3>
                     <h3 class="shop-father-menu-modify" style="display: none"><input
@@ -104,6 +104,7 @@
      * 主函数
      */
     $(function () {
+        $('#child-menu-list').data('deleteList', []);
         $('#shop-menu-dish-main').data("isModify", false);
         //获取总菜单列表信息
         doGetFatherMenuList();
@@ -145,7 +146,6 @@
         }
         //默认渲染激活的总菜单项
         doGetChildMenuList(data[fatherMenuActive].fatherMenuId);
-
     }
 
     /**
@@ -176,7 +176,7 @@
         let child = result.data.childMenuList;
         for (let i = 0; i < child.length; i++) {
             renderChildMenu($childMenuList, i, child);
-            let id = 'child-menu-' + child[i].childMenuName;
+            let id = 'child-menu-' + child[i].childMenuName + "-" + i;
             $("#" + id).click({child: child[i]}, doGetChildMenuUI);
         }
     }
@@ -187,7 +187,7 @@
     function renderChildMenu($childMenuList, i, child) {
         $childMenuList.append(
             `<div class="col-lg-3 col-xs-6 shop-child-menu-card">
-                    <div class="small-box bg-aqua" id="child-menu-${child[i].childMenuName}">
+                    <div class="small-box bg-aqua" id="child-menu-${child[i].childMenuName}-${i}">
                         <div class="inner">
                                 <h3 class="shop-child-menu-modify child-menu-name1" id="${child[i].childMenuId}">${child[i].childMenuName}</h3>
                                 <h3 class="shop-child-menu-modify" style="display:none">
@@ -198,8 +198,8 @@
                         <div class="icon">
                             <i class="fa fa-shopping-cart"></i>
                         </div>
-                            <a href="javascript:void (0)" onclick="doDeleteChildMenu(${child[i].childMenuId})" class="small-box-footer shop-child-menu-modify" style="display:none">
-                                 删除<i class="fa fa-fw fa-trash"></i></a>
+                        <a href="javascript:void (0)" onclick="doDeleteChildMenu(${child[i].childMenuId},'${child[i].childMenuName}-${i}')" class="small-box-footer shop-child-menu-modify" style="display:none">
+                        删除<i class="fa fa-fw fa-trash"></i></a>
                     </div>
                 </div>`
         );
@@ -231,30 +231,32 @@
     /**
      * 删除子菜单
      */
-    function doDeleteChildMenu(childId) {
+    function doDeleteChildMenu(childId, dom) {
         if (!confirm('确认删除此子菜单？')) {
             return
         }
+        console.log('doDeleteChildMenu');
         console.log(childId);
-        $.post('dishAndMenu/doDeleteChildMenu.do', {childMenuId: childId}, function (result) {
-            if(result.state==1){
-            	confirm(result.message);
-            	shopChildMenuModify();
-            }else{
-            	confirm(result.message);
-            }
-        });
-        refreshPage();
+        console.log(dom);
+        $("#child-menu-" + dom).parent().remove();
+        let deleteList = $('#child-menu-list').data('deleteList');
+        if(childId!=0){
+            deleteList.push(childId);
+        }
+
     }
 
     /**
      * 添加子菜单
      */
+
+
     function doAddChildMenu() {
+        childMenuCount++;
         let childMenu = [{
             "childMenuId": 0,
             "fatherMenuIdF": 0,
-            "childMenuName": '未命名',
+            "childMenuName": '未命名-' + childMenuCount,
             "childMenuDesc": null,
             "createtime": 0,
             "dishList": [],
@@ -313,19 +315,39 @@
                     shopIdF: parseInt(logShopId)
                 };
                 addList.push(obj)
-               
+
             }
         }
+        console.log("modifyList");
         console.log(modifyList);
-        $.post('dishAndMenu/doModifyChildMenu.do', {json: JSON.stringify(modifyList)}, function (result) {
-        });
+        console.log("deleteList");
+        let deleteList = $('#child-menu-list').data('deleteList');
+        console.log(deleteList);
+        if (deleteList.length != 0) {
+            $.post('dishAndMenu/doDeleteChildMenu.do', {json: JSON.stringify(deleteList)}, function (result) {
+                if (result.state == 1) {
+                } else {
+                    alert(result.message);
+
+                }
+            });
+        }
+        if (modifyList.length != 0) {
+            $.post('dishAndMenu/doModifyChildMenu.do', {json: JSON.stringify(modifyList)}, function (result) {
+                if (result.state == 1) {
+                } else {
+                    alert(result.message);
+                }
+
+            });
+        }
         $.post('dishAndMenu/doAddChildMenu.do', {json: JSON.stringify(addList)}, function (result) {
-        	if(result.state==1){
-        		alert("操作成功");
+            if (result.state == 1) {
                 refreshPage();
-        	}else{
-        		alert(result.message);
-        	}
+                childMenuCount = 0;
+            } else {
+                alert(result.message);
+            }
         });
     }
 
@@ -380,17 +402,17 @@
                 return
             }
             let obj = {
-            	fatherMenuId: fatherMenuId,
+                fatherMenuId: fatherMenuId,
                 fatherMenuName: name2,
                 desc: desc2
             };
-            $.post('dishAndMenu/doModifyFatherMenu.do', obj, function (result) {    	
-            	if(result.state==1){
+            $.post('dishAndMenu/doModifyFatherMenu.do', obj, function (result) {
+                if (result.state == 1) {
                     alert(result.message);
                     refreshPage();
-                	}else{
-                		 alert(result.message);
-                	}
+                } else {
+                    alert(result.message);
+                }
             });
         }
     }
@@ -420,14 +442,16 @@
         let obj = {
             fatherMenuId: fatherMenuId
         };
-        $.ajax({url:'dishAndMenu/doDeleteFatherMenu.do', data:obj, success:function (result) {
-        	if(result.state==1){
-            alert(result.message);
-            refreshPage();
-        	}else{
-        		 alert(result.message);
-        	}
-        }});
+        $.ajax({
+            url: 'dishAndMenu/doDeleteFatherMenu.do', data: obj, success: function (result) {
+                if (result.state == 1) {
+                    alert(result.message);
+                    refreshPage();
+                } else {
+                    alert(result.message);
+                }
+            }
+        });
     }
 
     /**
