@@ -123,14 +123,6 @@ public class ShopServiceImpl implements ShopService {
   		if (StringUtils.isEmpty(record.getAddress())) {
   			throw new ServiceException("商户地址不能为空");
   		}
-  		if (StringUtils.isEmpty(record.getPassword())) {
-  			throw new ServiceException("商户密码不能为空");
-  		}
-  		//密码
-		String salt = UUID.randomUUID().toString();
-		record.setSalt(salt);
-		SimpleHash sHash = new SimpleHash("MD5",record.getPassword(), salt);
-		record.setPassword(sHash.toString());
   		//更新数据
   		int rows = shopDAO.updateShopByPrimaryKey(record);
   		return rows;

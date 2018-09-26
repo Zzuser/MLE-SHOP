@@ -21,10 +21,11 @@
                     <!--总菜单名称-->
                     <h3 id="father-menu-name1" class="shop-father-menu-modify" style="display: inline"></h3>
                     <h3 class="shop-father-menu-modify" style="display: none"><input
-                            id="father-menu-name2" class="form-control"></h3>
+                            id="father-menu-name2" class="form-control" placeholder="总菜单方案名称"></h3>
                     <!--总菜单描述-->
                     <span id="father-menu-desc1" class="shop-father-menu-modify"></span>
-                    <input id="father-menu-desc2" class="shop-father-menu-modify form-control" style="display: none">
+                    <input id="father-menu-desc2" class="shop-father-menu-modify form-control" style="display: none"
+                           placeholder="描述">
                     <!--总菜单创建日期-->
                     <span id="father-menu-time" class="pull-right"></span>
                     <div class="btn-group shop-father-menu-modify" style="display: none">
@@ -240,7 +241,7 @@
         console.log(dom);
         $("#child-menu-" + dom).parent().remove();
         let deleteList = $('#child-menu-list').data('deleteList');
-        if(childId!=0){
+        if (childId != 0) {
             deleteList.push(childId);
         }
 
@@ -318,6 +319,9 @@
 
             }
         }
+
+        console.log("addList");
+        console.log(addList);
         console.log("modifyList");
         console.log(modifyList);
         console.log("deleteList");
@@ -326,17 +330,20 @@
         if (deleteList.length != 0) {
             $.post('dishAndMenu/doDeleteChildMenu.do', {json: JSON.stringify(deleteList)}, function (result) {
                 if (result.state == 1) {
+                    refreshPage();
                 } else {
                     alert(result.message);
-
+                    refreshPage();
                 }
             });
         }
         if (modifyList.length != 0) {
             $.post('dishAndMenu/doModifyChildMenu.do', {json: JSON.stringify(modifyList)}, function (result) {
                 if (result.state == 1) {
+                    refreshPage();
                 } else {
                     alert(result.message);
+                    refreshPage();
                 }
 
             });
@@ -344,9 +351,10 @@
         $.post('dishAndMenu/doAddChildMenu.do', {json: JSON.stringify(addList)}, function (result) {
             if (result.state == 1) {
                 refreshPage();
-                childMenuCount = 0;
             } else {
                 alert(result.message);
+                refreshPage();
+
             }
         });
     }

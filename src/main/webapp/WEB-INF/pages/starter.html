@@ -181,14 +181,15 @@ desired effect
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <!-- The user image in the navbar-->
-                            <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                            <img id="user-image-2" src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
                             <span class="hidden-xs username-panel">Alexander Pierce</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                <img id="user-image-3" src="dist/img/user2-160x160.jpg" class="img-circle"
+                                     alt="User Image">
 
                                 <p>
                                     <span class="username-panel"></span>
@@ -238,7 +239,7 @@ desired effect
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                    <img id="user-image-1" src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info username-panel">
                     <p>Alexander Pierce</p>
@@ -263,11 +264,10 @@ desired effect
               </span>
                     </a>
                     <ul class="treeview-menu">
-                    	<!-- rrp -->
-                    	<li><a id="load-shopupdate-id">商铺信息设置</a></li>
+                        <!-- rrp -->
+                        <li><a id="load-shopupdate-id">商铺信息设置</a></li>
                         <li><a id="load-discount-id">商铺打折设置</a></li>
-                        
-                        
+
 
                     </ul>
                 </li>
@@ -410,25 +410,28 @@ desired effect
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
 <script type="text/javascript">
-    let logShopId = 1;
+    let logShopId = 0;
     let childMenuCount = 0;
     $(function () {
         $.getJSON("index.do", '', function (result) {
             console.log(result);
             logShopId = result.data.shopId;
-            $(".username-panel").html(result.data.shopName)
+            $('#user-image-1').prop('src', 'http:' + result.data.profile);
+            $('#user-image-2').prop('src', 'http:' + result.data.profile);
+            $('#user-image-3').prop('src', 'http:' + result.data.profile);
+            $(".username-panel").html(result.data.shopName);
             $(".username-create-time").html('始于：' + new Date(result.data.createtime).toLocaleDateString())
         });
         // 侧边按钮绑定
         doLoadUI("load-workbench-id", "workbench/doGetWorkbenchUI.do", '工作空间');
         doLoadUI("load-dish-id", "dishAndMenu/doGetFatherMenuUI.do", '商品管理');
-        
+
         //rrp
         //商铺信息设置
         doLoadUI("load-shopupdate-id", "shop/doShopUpdateUI.do", '商铺信息设置');
         //商铺打折信息设置
         doLoadUI("load-discount-id", "disc/doDiscountListUI.do", '商铺打折设置');
-        
+
 
         $("#mainContentId").load("workbench/doGetWorkbenchUI.do", function () {
             $('#page-name').html('工作空间');
@@ -438,6 +441,7 @@ desired effect
     });
 
     function doLoadUI(id, url, pageName) {
+        childMenuCount = 0;
         $("#" + id).click(function () {
             $('#page-name').html(pageName);
             $("#mainContentId").load(url, function () {

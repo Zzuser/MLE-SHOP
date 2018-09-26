@@ -5,12 +5,11 @@
                 <h3 id="child-menu-title" class="box-title">子菜单</h3>
 
                 <div class="box-tools">
-                    <div class="input-group input-group-sm" style="width: 100px;">    
+                    <div class="input-group input-group-sm" style="width: 100px;">
                         <div class="input-group-btn">
-                           
-                            <button type="button" class="btn btn-danger delete"><i class="fa fa-trash-o"></i></button>
                             <button type="button" class="btn btn-success btn-update">修改</button>
                             <button type="button" class="btn btn-primary btn-add">添加</button>
+                            <button type="button" class="btn btn-danger delete"><i class="fa fa-trash-o"></i></button>
                         </div>
                     </div>
                 </div>
@@ -49,50 +48,54 @@
         doRenderGuiderWithChildMenu();
         $(".input-group-btn").on("click", ".btn-add", doAddOrUpDateDish).on("click", ".btn-update", doAddOrUpDateDish)
             .on("click", ".delete", doDeleteChild)
-       $("thead").on("change","#checkAll",doChangeTBodyCheckBoxState);
-        $("#shop-dish-list").on("change",".cBox",doChangeTHeadCheckBoxState);
+        $("thead").on("change", "#checkAll", doChangeTBodyCheckBoxState);
+        $("#shop-dish-list").on("change", ".cBox", doChangeTHeadCheckBoxState);
     });
-       function doChangeTHeadCheckBoxState(){
-    	//获取所有的Tbody中checkbax对象“与的结果
-    	var flag=true;
-    	$("#shop-dish-list input[type='checkbox']").each(function(){
-    		flag=flag&&$(this).prop("checked");
-    	})
-       //将tbody中的checkbox中的状态赋予thead中chaeckbox对象
-    	$("#checkAll").prop("checked",flag);
+
+    function doChangeTHeadCheckBoxState() {
+        //获取所有的Tbody中checkbax对象“与的结果
+        var flag = true;
+        $("#shop-dish-list input[type='checkbox']").each(function () {
+            flag = flag && $(this).prop("checked");
+        })
+        //将tbody中的checkbox中的状态赋予thead中chaeckbox对象
+        $("#checkAll").prop("checked", flag);
     }
+
     //更新tbody中的checkBox的状态
-    function doChangeTBodyCheckBoxState(){
-    	//1.获取当前点击对象的状态
-    	var state=$(this).prop("checked");
-    	//2.将此状态应用到checkbox对象上
-    	$("#shop-dish-list input[type='checkbox']").each(function(){ 		
-    		$(this).prop("checked",state);
-    	});
+    function doChangeTBodyCheckBoxState() {
+        //1.获取当前点击对象的状态
+        var state = $(this).prop("checked");
+        //2.将此状态应用到checkbox对象上
+        $("#shop-dish-list input[type='checkbox']").each(function () {
+            $(this).prop("checked", state);
+        });
     }
+
     /**
      * 渲染子菜单导航栏
      */
     function doDeleteChild() {
         var rowData = $("tbody input[type='checkbox']:checked").parents("tr").data("rowData");
-        if(!rowData){
-     	   alert("请选中")
-     	   }else{
-        var url = "dishAndMenu/doDeleteDish.do";
-        var dishId = rowData.dishId;
-        var params = {"dishId": dishId};     
-        $.post(url, params, function (result) {
-            if (result.state == 1) {
-                alert(result.message);
-                $("#mainContentId").removeData();
-                var url = "dishAndMenu/doGetFatherMenuUI.do";
-                $("#mainContentId").load(url);
-            } else {
-                alert(result.message);
-            }
-        })
+        if (!rowData) {
+            alert("请选中")
+        } else {
+            var url = "dishAndMenu/doDeleteDish.do";
+            var dishId = rowData.dishId;
+            var params = {"dishId": dishId};
+            $.post(url, params, function (result) {
+                if (result.state == 1) {
+                    alert(result.message);
+                    $("#mainContentId").removeData();
+                    var url = "dishAndMenu/doGetFatherMenuUI.do";
+                    $("#mainContentId").load(url);
+                } else {
+                    alert(result.message);
+                }
+            })
+        }
     }
-    }
+
     //修改和添加菜品页面
     function doAddOrUpDateDish() {
         let data = $('#shop-menu-dish-main').data('child');
@@ -102,25 +105,26 @@
             title = "添加菜品信息";
             var url = "dishAndMenu/dojumpObject.do";
             $("#mainContentId").load(url, function () {
-            $(".box-title").html(title);
+                $(".box-title").html(title);
             })
         }
-         else {
+        else {
             //设置标题
             title = "修改菜品信息"
             var rowData = $("tbody input[type='checkbox']:checked").parents("tr").data("rowData")
             //2.从新绑定数据到#mainContent
-            if(!rowData){
-            	alert("请选中");
-            }else{       
-        $("#mainContentId").data("rowData", rowData);
-        var url = "dishAndMenu/dojumpObject.do";
-        $("#mainContentId").load(url, function () {
-            $(".box-title").html(title);
-        })
+            if (!rowData) {
+                alert("请选中");
+            } else {
+                $("#mainContentId").data("rowData", rowData);
+                var url = "dishAndMenu/dojumpObject.do";
+                $("#mainContentId").load(url, function () {
+                    $(".box-title").html(title);
+                })
+            }
+        }
     }
-    }
-    }
+
     function doRenderGuiderWithChildMenu() {
         let data = $('#shop-menu-dish-main').data('child');
         console.log('doRenderGuiderWithChildMenu');

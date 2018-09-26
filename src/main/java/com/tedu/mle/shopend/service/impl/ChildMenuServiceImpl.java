@@ -22,6 +22,7 @@ public class ChildMenuServiceImpl implements ChildMenuService {
     private ChildMenuDAO childMenuDao;
     @Autowired
     private DishWithChildMenuDAO dishWithChildMenuDao;
+
     /**
      * 添加子菜单模块
      */
@@ -57,8 +58,8 @@ public class ChildMenuServiceImpl implements ChildMenuService {
      */
     @Override
     public int deleteByPrimaryKey(List<Long> childMenuId) {
-    	//1.验证是否选中删除
-    	int rows=0;
+        //1.验证是否选中删除
+        int rows = 0;
         if (childMenuId == null || childMenuId.size() == 0) {
             throw new IllegalArgumentException("删除子菜单的id错误");
         }
@@ -67,22 +68,22 @@ public class ChildMenuServiceImpl implements ChildMenuService {
                 throw new IllegalArgumentException("删除子菜单的id错误");
             }
             List<Long> list = dishWithChildMenuDao.selectByPrimaryKey(id);
-            System.out.println("list"+list.size());
-            if(list.size()!=0) {
-            	throw new ServiceException("菜单中存在数据无法删除");
-            }else {
-            int delete = dishWithChildMenuDao.deleteByPrimaryKey(id);
-            //2.执行删除操作
-            rows = childMenuDao.deleteByPrimaryKey(id);
-            //3.验证操作是否成功
-            if (rows == 0 || delete==0) {
-                throw new ServiceException("删除失败");
+            System.out.println("list" + list.size());
+            if (list.size() != 0) {
+                throw new ServiceException("菜单中存在数据无法删除");
+            } else {
+//            int delete = dishWithChildMenuDao.deleteByPrimaryKey(id);
+                //2.执行删除操作
+                rows = childMenuDao.deleteByPrimaryKey(id);
+                //3.验证操作是否成功
+                if (rows == 0) {
+                    throw new ServiceException("删除失败");
+                }
+
             }
-            
-        }
         }
         //4.返回结果
-		return rows;
+        return rows;
     }
 
     /**
