@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>么了饿商铺注册页面</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta
+            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+            name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet"
+          href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet"
+          href="bower_components/Ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="plugins/iCheck/square/blue.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Google Font -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+<style>
+    .my-login {
+        padding: 30px;
+        background: rgba(255, 255, 255, 0.6);
+    }
+</style>
+<body class="hold-transition register-page" style="background: url('./dist/img/loginbg.jpg')">
+<div class="login-box">
+    <div class="register-logo">
+        <a href="#" style="color: white"><b>么了饿商铺注册系统</b></a>
+    </div>
+
+    <div class="my-login">
+        <p class="login-box-msg">新商户注册</p>
+
+        <form>
+            <div class="form-group has-feedback">
+                <input type="text" id="name" class="form-control" name="username"
+                       placeholder="店家名" onblur="inputOnblur(this)" required="">
+            </div>
+
+            <div class="form-group has-feedback">
+                <input type="password" id="password" class="form-control"
+                       name="password" placeholder="请输入密码" onblur="inputOnblur(this)" required="">
+            </div>
+
+            <div class="form-group has-feedback">
+                <input type="text" id="tel" class="form-control" name="tel"
+                       placeholder="请输入手机号" onblur="inputOnblur(this)" required="">
+            </div>
+
+            <div class="form-group has-feedback">
+                <input type="text" id="manaagername" class="form-control"
+                       name="managername" placeholder="请输入商店负责人名称" onblur="inputOnblur(this)" required=""> <span
+                    class="glyphicon glyphicon-log-fuzeren form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="text" id="manageridcard" class="form-control"
+                       name="manageridcard" placeholder="商品负责人身份证" onblur="inputOnblur(this)" required=""> <span
+                    class="glyphicon glyphicon-log-idcard form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="text" id="address" class="form-control"
+                       name="addresss" placeholder="请输入商店地址" onblur="inputOnblur(this)" required=""> <span
+                    class="glyphicon glyphicon-log-phone form-control-feedback"></span>
+            </div>
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="checkbox icheck">
+                        <label> <input type="checkbox" style="padding-left: 10px;margin-left: -10px;">
+                            <span style="margin-left: 5px">我同意相关</span>
+                            <a href="#">《么了饿条款》</a>
+                        </label>
+                    </div>
+                </div>
+                <!-- /.col -->
+                <div class="col-xs-4">
+                    <input class="btn btn-primary btn-block btn-flat" onclick="dohuoquzhifangfa()" value="注册">
+                </div>
+                <!-- /.col -->
+            </div>
+        </form>
+
+
+    </div>
+    <!-- /.form-box -->
+</div>
+<!-- /.register-box -->
+
+<!-- jQuery 3 -->
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- iCheck -->
+<script src="plugins/iCheck/icheck.min.js"></script>
+<script>
+    $(function () {
+
+    });
+
+    function dohuoquzhifangfa() {
+        var params = doGetFormData();
+        var url = "register/doshanghuzhuce.do";
+        $.post(url, params, function (result) {
+            if (result.state == 1) {
+                alert(result.message);
+                location.href = "doLoginUI.do"
+            } else {
+                if (result.message == "该手机号已经注册过，请登录即可")
+                //跳转到登录页面
+                    location.href = "doLoginUI.do"
+                alert(result.message);
+            }
+        })
+    }
+
+    function doGetFormData() {
+        var params = {
+            shopName: $("#name").val(),
+            password: $("#password").val(),
+            phone: $("#tel").val(),
+            managerName: $("#manaagername").val(),
+            managerIdcard: $("#manageridcard").val(),
+            address: $("#address").val()
+        };
+        console.log(params);
+        return params;
+    }
+
+    function inputOnblur(data) {
+        /*  alert($(data).val()) */
+        if ($(data).val() == "")
+            alert("不能为空");
+    }
+</script>
+</body>
+</html>

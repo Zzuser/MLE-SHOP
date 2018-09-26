@@ -1,0 +1,225 @@
+<div class="row">
+	<div class="col-xs-12">
+		<div class="box">
+			<div class="box-header">
+				<h3 class="box-title">折扣信息</h3>
+
+				<div class="box-tools">
+					<div class="input-group input-group-sm" style="width: 350px;">
+						<div class="input-group-btn">
+							<button type="button" class="btn btn-default btn-add">添加</button>
+							<button type="button" class="btn btn-default btn-update">修改</button>
+							<button type="button" class="btn btn-default btn-delete">删除</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /.box-header -->
+			<div class="box-body table-responsive no-padding">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th><input type="checkbox" id="checkAll">全选</th>
+							<th>折扣名称</th>
+							<th>描述</th>
+							<th>百分比折扣</th>
+							<th>立减优惠</th>
+							<th>最小价格</th>
+							<th>创建时间</th>
+						</tr>
+					</thead>
+					<tbody id="tbodyId"></tbody>
+				</table>
+			</div>
+			<div id="pageId" class="box-footer clearfix">
+			</div>
+			<!-- /.box-body -->
+		</div>
+		<!-- /.box -->
+	</div>
+</div>
+<script type="text/javascript">
+
+$(document).ready(function(){
+	doGetObjects();
+	//全选操作
+	$("thead").on("change","#checkAll",doChangeTbodyCheckBoxState);
+	$("#tbodyId").on("change",".cBox",doChangeTheadCheckBoxState);
+	
+	$(".input-group-btn")
+	//删除事件注册
+	.on("click",".btn-delete",doDeleteObjects)
+	//添加和修改事件注册
+	.on("click",".btn-add,.btn-update",doLoadEditUI);
+});
+
+//执行添加和修改事件
+function doLoadEditUI(){
+	   //1.判定点击的对象
+	   var title;
+	   if($(this).hasClass("btn-add")){
+		   title="添加折扣";
+		   doLoadPage(title);
+	   }else if($(this).hasClass("btn-update")){
+		   title="修改折扣";
+		   var discountId=doGetCheckedDiscountId();
+		   console.log("discountId="+discountId);
+		   if(!discountId){
+			  alert("请先选择");
+			  return;
+		   }
+		   //基于id进行查询并加载编辑页面
+		   doFindObjectByDiscountId(discountId,title);
+	   }
+}
+//基于id进行查询并加载编辑页面
+function doFindObjectByDiscountId(discountId,title){
+	   //1.params
+	   var params={"discountId":discountId};
+	   //2.url
+	   var url="disc/doSelectByPrimaryKey.do";
+	   //3.ajax request
+	   $.getJSON(url,params,function(result){//JsonResult
+		   if(result.state==1){
+			  $("#mainContentId").data("discountData",result);
+	          doLoadPage(title);
+	          //console.log(result);
+		   }else{
+			  alert(result.message);
+		   }
+	   });
+}
+//获取选中的DiscountId
+function doGetCheckedDiscountId(){
+	 return $("tbody input[name='cItem']:checked").val();
+}
+//加载添加页面
+function doLoadPage(title){
+	   var url="disc/doDiscountEditUI.do"
+	   $("#mainContentId").load(url,function(){
+		   $(".box-title").html(title);
+	   }) 
+}
+
+
+//执行删除操作
+function doDeleteObjects(){
+	   //获取选中的记录id
+	   var discountIds = doGetCheckedDiscountIds();
+	   if (discountIds.length == 0) {
+		   alert("请先选中");
+		   return;
+	   }
+	   console.log("discountIds",discountIds.toString())
+	   //定义参数
+	   var params = {"discountIds":discountIds.toString()};
+	   //定义url
+	   var url = "disc/doDeleteDiscountsByPrimaryKey.do";
+	   //发异步请求执行删除操作
+	   $.post(url,params,function(result){
+		   if (result.state==1) {
+			alert(result.message);
+			doGetObjects();//刷新页面
+		}else{
+			alert(result.message);
+		}
+	   });
+	   
+}
+
+//获取选中的discountId
+function doGetCheckedDiscountIds(){
+	   //定义一个数组存储选中的id值
+	   var array = [];
+	   //获取tbody中所有的 checkbox对象  迭代所有的checkbox
+	   $("#tbodyId input[type='checkbox']")
+	   .each(function(){
+		   if($(this).prop("checked")){
+			   //push方法用于往数组中放数据
+			   array.push($(this).val());
+		   }
+	   });
+	   return array;
+	   
+}
+
+//让tbody中checkbox对象状态的变化影响thead中checkbox对象的状态
+function doChangeTheadCheckBoxState(){
+	var flag = true;
+	   //1获取所有tbody中checkbox对象状态  “与”的 结果
+	   $("#tbodyId input[type='checkbox']").each(function(){
+		   flag = flag&&$(this).prop("checked");
+	   });
+	   //2.将tbody中checkbox的状态值赋予thead中的checkbox
+	   $("#checkAll").prop("checked",flag);
+}
+//更新tbody中checkbox对象的状态
+function doChangeTbodyCheckBoxState(){
+	   //1.获取当前点击对象(thead->checkbox)的状态
+	   var state = $(this).prop("checked");
+	   //2.将此状态应用到tbody中的checkbox对象上
+	   $("#tbodyId input[type='checkbox']").each(function(){
+		   $(this).prop("checked",state);
+	   });
+}
+
+
+
+//加载打折信息
+function doGetObjects(){
+	var params = {"shopId":logShopId};
+	var url = "disc/doSelectDiscountByShopId.do";
+	$.getJSON(url,params,function(result){
+		console.log(result);
+		doSetTableBodyRows(result.data);
+	});
+}
+
+//加载打折信息表
+function doSetTableBodyRows(data){
+	console.log(data);
+	//获取body对象,并清空内容
+	var tBody = $("#tbodyId");
+	tBody.empty();
+	//将打折数据迭代添加到tbody
+	for(var i in data){
+		//创建tr对象
+		var tr=$("<tr></tr>");
+		//tr.data("rowData",data[i]);
+		//创建td元素
+		var tds=doCreateTds(data[i]);
+		//将tr追加到tr中
+		tr.append(tds);
+		//将tr追加到tbody中
+		tBody.append(tr);
+	}
+}
+//创建td
+function doCreateTds(data){
+	console.log("data.discountId="+data.discountId);
+	var tds = 
+		"<td><input type='checkbox' class='cBox' name='cItem' value='"+data.discountId+"'></td>"+
+		"<td>"+data.discountName+"</td>"+
+		"<td>"+data.desc+"</td>"+
+		"<td>"+data.percent+"</td>"+
+		"<td>"+data.direct+"</td>"+
+		"<td>"+data.minPrice+"</td>"+
+		"<td>"+new Date(data.createtime).toLocaleDateString()+"</td>";
+		return tds;
+}
+
+
+
+
+
+
+
+
+
+
+  
+</script>
+
+
+
+

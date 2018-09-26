@@ -1,0 +1,276 @@
+<!-- Horizontal Form -->
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">修改商户信息</h3>
+
+        <div class="box-tools">
+            <div class="input-group input-group-sm" style="width: 100px;">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default btn-update">修改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    <form class="form-horizontal" id='shop-info-edit'>
+        <div class="box-body">
+            <div class="form-group">
+                <label for="shop-state" class="col-sm-2 control-label">商铺状态</label>
+                <div class="col-sm-10" id="shop-state">
+                    <button type="button" class="btn btn-default btn-openshop">开店</button>
+                    <button type="button" class="btn btn-default btn-closeshop">闭店</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="shop-name" class="col-sm-2 control-label">店家名称</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control shop-update-unchange" id="shop-name"
+                           placeholder="商户名称" readonly="true">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="shop-phone" class="col-sm-2 control-label">联系电话</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control shop-update-unchange" id="shop-phone"
+                           placeholder="联系方式" readonly="true">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="shop-manager" class="col-sm-2 control-label">责任人</label>
+                <div class="col-sm-10">
+                    <input type="text" id="shop-manager" placeholder="商户负责人"
+                           class="form-control shop-update-unchange" readonly="true">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="shop-idcard" class="col-sm-2 control-label">身份证号</label>
+                <div class="col-sm-10">
+                    <input type="text" id="shop-idcard" placeholder="18位有效身份证号码"
+                           class="form-control shop-update-unchange" readonly="true">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="shop-address" class="col-sm-2 control-label">商户地址</label>
+                <div class="col-sm-10">
+                    <input type="text" id="shop-address" placeholder="6-18位数字或字母组成"
+                           class="form-control shop-update-unchange" readonly="true">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="shop-proclamation" class="col-sm-2 control-label">商户公告</label>
+                <div class="col-sm-10">
+                    <input type="text" id="shop-proclamation" placeholder="简要描述"
+                           class="form-control shop-update-unchange" readonly="true">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="describeId" class="col-sm-2 control-label">菜品图片</label>
+                <div class="col-sm-4" id="describeId">
+                    <input type="file" name="file" id="uploadImage" disabled>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="shop-hours" class="col-sm-2 control-label">营业时间</label>
+                <div class="col-sm-10">
+                    <input type="text" id="shop-hours" placeholder="合法营业时间"
+                           class="form-control shop-update-unchange" readonly="true">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="shop-minprice" class="col-sm-2 control-label">起送价</label>
+                <div class="col-sm-10">
+                    <input type="text" id="shop-minprice" placeholder="随意固定起送价"
+                           class="form-control shop-update-unchange" readonly="true">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="shop-shipping" class="col-sm-2 control-label">配送费</label>
+                <div class="col-sm-10">
+                    <input type="text" id="shop-shipping" placeholder="配送价"
+                           class="form-control shop-update-unchange" readonly="true">
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer" style="display: none">
+            <button type="button" class="btn btn-default btn-cancel">取消</button>
+            <button type="button" class="btn btn-info pull-right btn-save">确定</button>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+
+</div>
+<script type="text/javascript"
+        src="bower_components/ztree/jquery.ztree.all.min.js"></script>
+<script type="text/javascript" src="bower_components/layer/layer.js">
+
+</script>
+
+<script type="text/javascript">
+    $(document).ready(
+        function () {
+            //页面加载完成后，加载商户信息并初始化页面
+            doLoadShop();
+            //修改按钮注册disabled
+            $(".input-group-btn").on("click", ".btn-update", doLoadEditUI);
+
+            //取消确定事件注册
+            $(".box-footer").on("click", ".btn-cancel", doCancel)
+                .on("click", ".btn-save", goSubmit);
+
+            $(".form-group")
+                .on("click", ".btn-openshop,.btn-closeshop", openOrCloseShop)
+
+        });
+
+    function goSubmit() {
+        var fileObj = document.getElementById("uploadImage").files[0]; // js 获取文件对象
+        if (typeof (fileObj) == "undefined" || fileObj.size <= 0) {
+            alert("请选择图片");
+            return;
+        }
+        var formFile = new FormData();
+        // formFile.append("action", "UploadVMKImagePath");
+        formFile.append("file", fileObj); //加入文件对象
+        // XMLHttpRequest 对象
+        var xhr = new XMLHttpRequest();
+        xhr.open("post", "http://192.168.21.99:8081/upload", true);
+        xhr.onreadystatechange = function () {
+            //基于请求响应状态处理结果
+            //4表示服务端响应结束,200表示服务端响应OK(正确)
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                //responseText为服务端响应的文本
+                console.log(xhr.responseText);//string
+                doUpdate(xhr.responseText);
+            }
+        };
+        xhr.send(formFile);
+    }
+
+    function openOrCloseShop() {
+        var params;
+        if ($(this).hasClass("btn-openshop")) {
+            params = {
+                shopId: logShopId,
+                state: true
+            }
+        } else if ($(this).hasClass("btn-closeshop")) {
+            params = {
+                shopId: logShopId,
+                state: false
+            }
+        }
+        var url = "shop/doUpdateShopState.do";
+        $.getJSON(url, params, function (result) {
+            if (result.state == 1) {
+                alert(result.message);
+                doCancel();
+            } else {
+                alert(result.message);
+            }
+        });
+    }
+
+
+    //取消
+    function doCancel() {
+        $('#mainContentId').load('shop/doShopUpdateUI.do')
+    }
+
+    //确定修改
+    function doUpdate(img) {
+        //1.获取表单数据
+        var params = doGetEditFormData();
+        params.profile = img;
+        //2.发起异步请求
+        var url = "shop/doUpdateShopByPrimaryKey.do";
+        console.log(params);
+        $.post(url, params, function (result) {
+            if (result.state == 1) {
+                alert(result.message);
+                doCancel();
+            } else {
+                alert(result.message);
+            }
+        })
+    }
+
+
+    //加载修改  取消按钮
+    function doLoadEditUI() {
+        $(".shop-update-unchange").prop("readonly", false);
+        $("#uploadImage").prop("disabled", false);
+        $(".box-footer").toggle();
+    }
+
+    //页面加载完成，加载商户信息
+    function doLoadShop() {
+        var url = "shop/doSelectByPrimaryKey.do";
+        var params = {
+            "shopId": logShopId
+        };
+        $.getJSON(url, params, function (result) {
+
+            //初始化用户信息
+            //console.log("doLoadShop");
+            //console.log(result);
+            doInitFormData(result.data);
+
+
+        });
+    }
+
+    //加载商户信息
+    function doInitFormData(shop) {
+        console.log(shop);
+        $('#shop-name').val(shop.shopName);
+        $('#shop-phone').val(shop.phone);
+        $('#shop-manager').val(shop.managerName);
+        $('#shop-idcard').val(shop.managerIdcard);
+        $('#shop-address').val(shop.address);
+        $('#shop-proclamation').val(shop.proclamation);
+        $('#shop-profile').val(shop.profile);
+        $('#shop-hours').val(shop.shopHours);
+        if (shop.state) {
+            $(".btn-openshop").removeClass("btn-default")
+                .addClass("btn-info");
+        } else {
+            $(".btn-closeshop").removeClass("btn-default")
+                .addClass("btn-info");
+        }
+        $('#shop-minprice').val(shop.minPrice);
+        $('#shop-shipping').val(shop.shippingFee);
+
+    }
+
+    //执行修改时获取表单数据
+    function doGetEditFormData() {
+        var params = {
+            shopId: logShopId,
+            shopName: $("#shop-name").val(),
+            phone: $("#shop-phone").val(),
+            managerName: $("#shop-manager").val(),
+            managerIdcard: $("#shop-idcard").val(),
+            address: $("#shop-address").val(),
+            proclamation: $("#shop-proclamation").val(),
+            profile: $("#shop-profile").val(),
+            shopHours: $("#shop-hours").val(),
+            state: $("#shop-state").val(),
+            minPrice: $("#shop-minprice").val(),
+            shippingFee: $("#shop-shipping").val()
+
+        }
+        console.log(params);
+        return params;
+    }
+</script>
+
+
+
+
+
+
+
+
